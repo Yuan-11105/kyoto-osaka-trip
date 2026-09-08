@@ -23,6 +23,7 @@
             --radius: 20px;
             --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             --transition: 0.3s ease;
+            --input-bg: #f0ebe6;
         }
         [data-theme="dark"] {
             --bg: #1a1a1e;
@@ -31,6 +32,7 @@
             --muted: #a0a0a0;
             --border: #3a3a40;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --input-bg: #323238;
         }
         html,
         body {
@@ -235,6 +237,12 @@
             color: var(--muted);
             font-size: 13px;
         }
+        .info-body .price {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 2px;
+        }
         .info-body .addr {
             font-size: 12px;
             color: var(--muted);
@@ -257,6 +265,9 @@
         }
         .info-body .tag.green {
             background: #2a9d8f;
+        }
+        .info-body .tag.orange {
+            background: #e67e22;
         }
         .clickable {
             color: var(--accent);
@@ -379,6 +390,9 @@
         .day-item .content .reserve-tag.done {
             background: #27ae60;
         }
+        .day-item .content .reserve-tag.wait {
+            background: #e67e22;
+        }
 
         /* ===== 待办清单 ===== */
         .todo-list {
@@ -429,7 +443,7 @@
             text-align: center;
         }
 
-        /* ===== 汇率计算器 ===== */
+        /* ===== 汇率计算器（交互版） ===== */
         .rate-box {
             background: var(--bg);
             border-radius: 14px;
@@ -482,6 +496,78 @@
             margin-top: 6px;
         }
 
+        .rate-input-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 8px 0 6px;
+        }
+        .rate-input-group .input-wrap {
+            flex: 1;
+            min-width: 120px;
+        }
+        .rate-input-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 2px;
+        }
+        .rate-input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            background: var(--input-bg);
+            color: var(--text);
+            transition: border var(--transition), background var(--transition);
+            font-variant-numeric: tabular-nums;
+            outline: none;
+        }
+        .rate-input-group input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15);
+        }
+        .rate-input-group input::placeholder {
+            color: var(--muted);
+            font-weight: 400;
+            font-size: 14px;
+        }
+        .rate-input-group .currency-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        .quick-amounts {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 8px 0 4px;
+        }
+        .quick-amounts .quick-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .quick-amounts .quick-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
         /* ===== 响应式 & 微调 ===== */
         @media (max-width: 480px) {
             .container {
@@ -510,6 +596,13 @@
             .rate-box .row {
                 font-size: 13px;
             }
+            .rate-input-group input {
+                font-size: 16px;
+                padding: 8px 10px;
+            }
+            .rate-input-group {
+                gap: 8px;
+            }
         }
         @media print {
             .theme-toggle {
@@ -530,6 +623,7 @@
                 --text: #000;
                 --muted: #555;
                 --border: #ccc;
+                --input-bg: #f0ebe6;
             }
         }
 
@@ -575,6 +669,15 @@
         }
         [data-theme="dark"] .rate-box .refresh-btn {
             background: #3a3a40;
+        }
+        [data-theme="dark"] .quick-amounts .quick-btn {
+            background: #323238;
+        }
+        [data-theme="dark"] .rate-input-group input {
+            background: #323238;
+        }
+        [data-theme="dark"] .info-body .price {
+            color: #e67e22;
         }
     </style>
 </head>
@@ -725,6 +828,7 @@
                     <div class="info-body">
                         <div class="primary">京都四条河原町彩鸿酒店</div>
                         <div class="detail">10.12 (六) 入住 · 10.16 (三) 退房 · 4 晚</div>
+                        <div class="price">💰 40,464 JPY（均价 10,116 JPY/晚）</div>
                         <div class="addr">📍 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都四条河原町彩鸿酒店')">京都市下京区四条通河原町東入</span></div>
                     </div>
                 </div>
@@ -734,6 +838,7 @@
                     <div class="info-body">
                         <div class="primary">大阪心斋桥彩鸿酒店</div>
                         <div class="detail">10.16 (三) 入住 · 10.20 (日) 退房 · 4 晚</div>
+                        <div class="price">💰 34,870 JPY（均价 8,718 JPY/晚）</div>
                         <div class="addr">📍 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大阪心斋桥彩鸿酒店')">大阪市中央区心斋桥</span></div>
                     </div>
                 </div>
@@ -742,7 +847,7 @@
                     <div class="info-icon">📱</div>
                     <div class="info-body">
                         <div class="primary">电话卡</div>
-                        <div class="detail">10.3 淘宝购买日本电话卡，抵达后激活</div>
+                        <div class="detail">两人两张 · 10天每天3GB · 合计 160 人民币（不含通话）</div>
                         <span class="tag green">待办</span>
                     </div>
                 </div>
@@ -752,8 +857,8 @@
                     <div class="info-body">
                         <div class="primary">Airporter 行李寄送</div>
                         <div class="detail">10.16 早上 9:00 前京都酒店寄送 → 关西机场当日达</div>
-                        <div class="addr">需提前 1 天在 Klook/官网预约</div>
-                        <span class="tag">需预约</span>
+                        <div class="addr">🔗 <span class="clickable" onclick="openMap('https://www.klook.com/zh-CN/activity/123456-airporter-osaka/')">Klook 预约 Airporter</span></div>
+                        <span class="tag orange">需预约</span>
                     </div>
                 </div>
 
@@ -822,7 +927,7 @@
                 <div class="day-items">
                     <div class="day-item"><span class="time">08:30</span><div class="content">出发，便利店买饭团/水</div></div>
                     <div class="day-item"><span class="time">09:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=伏见稻荷大社')">伏见稻荷大社</span> 游览 1h <span class="note">千本鸟居走到半山即可</span></div></div>
-                    <div class="day-item"><span class="time">10:30</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=清水寺')">清水寺</span> · 喝抹茶冰激凌 <span class="note">八十八良叶</span></div></div>
+                    <div class="day-item"><span class="time">10:30</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=清水寺')">清水寺</span> · 喝抹茶拿铁 @ <strong>GOKAGO</strong> &amp; 抹茶冰激凌 <strong>八十八良叶</strong></div></div>
                     <div class="day-item"><span class="time">12:30</span><div class="content">午餐：土雷门鳗鱼</div></div>
                     <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=三年坂')">三年坂 · 二年坂</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=八坂神社')">八坂神社</span></div></div>
                     <div class="day-item"><span class="time">16:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=祇园')">祇园</span> · 花见小路 · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=鸭川')">鸭川</span> 散步</div></div>
@@ -830,7 +935,7 @@
                 </div>
             </div>
 
-            <!-- Day 3: 10.14 宇治 -->
+            <!-- Day 3: 10.14 宇治（删除奈良） -->
             <div class="day-block">
                 <div class="day-header" onclick="toggleRoute(this)">
                     <span><span class="day-label">10.14 周一</span> <span class="day-sub">Day 3 · 宇治</span></span>
@@ -868,9 +973,9 @@
                     <div class="day-item"><span class="time">08:30</span><div class="content">早餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Amazon+Cafe+京都')">Amazon Cafe</span> 炸虾三明治 · 鸡蛋三明治</div></div>
                     <div class="day-item"><span class="time">10:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都高岛屋')">高岛屋</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都BAL')">BAL</span> (MUJI旗舰店) · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=新京极商店街')">新京极</span></div></div>
                     <div class="day-item"><span class="time">12:30</span><div class="content">午餐：高岛屋 7F 胜牛 / 自行安排</div></div>
-                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=藤井大丸')">藤井大丸</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大丸京都店')">大丸</span> · 唐吉诃德</div></div>
+                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=藤井大丸')">藤井大丸</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大丸京都店')">大丸</span> · 唐吉诃德 · <strong>无碍山房芭菲</strong>（高岛屋逛街时吃）</div></div>
                     <div class="day-item"><span class="time">16:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=SOU.SOU+京都')">SOU·SOU</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=新风馆+京都')">新风馆</span> (BEAMS)</div></div>
-                    <div class="day-item"><span class="time">晚间</span><div class="content">无碍山房芭菲 · 随意晚餐</div></div>
+                    <div class="day-item"><span class="time">晚间</span><div class="content">随意晚餐</div></div>
                 </div>
             </div>
 
@@ -886,20 +991,20 @@
                     <div class="route-step"><span class="step-num">③</span> 渡月桥 · 天龙寺 · 竹林小径</div>
                     <div class="route-step"><span class="step-num">④</span> 岚山小火车（可选）</div>
                     <div class="route-step"><span class="step-num">⑤</span> 傍晚前往大阪 · 心斋桥酒店</div>
-                    <div class="route-step"><span class="step-num">⑥</span> 20:00 焼肉预约</div>
+                    <div class="route-step"><span class="step-num">⑥</span> 20:00 焼肉（待预约）</div>
                 </div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">08:30</span><div class="content">退房，行李寄送 <strong>Airporter</strong>（9:00前） <span class="reserve-tag">需预约</span></div></div>
+                    <div class="day-item"><span class="time">08:30</span><div class="content">退房，行李寄送 <strong>Airporter</strong>（9:00前） <span class="reserve-tag wait">Klook 预约</span></div></div>
                     <div class="day-item"><span class="time">09:00</span><div class="content">阪急京都线 → 桂 → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=岚山')">岚山</span></div></div>
                     <div class="day-item"><span class="time">10:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=渡月桥')">渡月桥</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=天龙寺')">天龙寺</span> · 竹林小径</div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：岚山よしむら荞麦面 / 豆腐宴</div></div>
+                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：岚山よしむら荞麦面 / 豆腐宴 / <strong>岚山喜重郎</strong></div></div>
                     <div class="day-item"><span class="time">14:00</span><div class="content">常寂光寺 · 二尊院 · 祇王寺 · 小火车（可选）</div></div>
                     <div class="day-item"><span class="time">17:00</span><div class="content">移动至大阪，入住 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大阪心斋桥彩鸿酒店')">心斋桥彩鸿酒店</span></div></div>
-                    <div class="day-item"><span class="time">20:00</span><div class="content">晚餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=ライブ焼肉+てんぐ+千日前')">ライブ焼肉 てんぐ 千日前店</span> <span class="reserve-tag">已预约</span></div></div>
+                    <div class="day-item"><span class="time">20:00</span><div class="content">晚餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=ライブ焼肉+てんぐ+千日前')">ライブ焼肉 てんぐ 千日前店</span> <span class="reserve-tag wait">待预约</span></div></div>
                 </div>
             </div>
 
-            <!-- Day 6: 10.17 大阪梅田 -->
+            <!-- Day 6: 10.17 大阪梅田（删除花火大会） -->
             <div class="day-block">
                 <div class="day-header" onclick="toggleRoute(this)">
                     <span><span class="day-label">10.17 周四</span> <span class="day-sub">Day 6 · 梅田</span></span>
@@ -960,7 +1065,7 @@
                     <div class="day-item"><span class="time">10:30</span><div class="content">天桥立展望台 · 沙洲散步</div></div>
                     <div class="day-item"><span class="time">12:30</span><div class="content">午餐（团餐或自理）</div></div>
                     <div class="day-item"><span class="time">14:00</span><div class="content">伊根舟屋 / 其他景点（依团行程）</div></div>
-                    <div class="day-item"><span class="time">18:00</span><div class="content">返回大阪，晚餐自由安排</div></div>
+                    <div class="day-item"><span class="time">18:00</span><div class="content">返回大阪，晚餐：<strong>烧肉放题</strong></div></div>
                 </div>
             </div>
 
@@ -1009,7 +1114,7 @@
                 <li><span class="todo-icon">⬜</span> 中转通预约济南免费住宿（9.11 去程）</li>
                 <li><span class="todo-icon">⬜</span> 中转通预约济南免费住宿（9.20 返程）</li>
                 <li><span class="todo-icon">⬜</span> 淘宝购买日本电话卡（10.3）</li>
-                <li><span class="todo-icon">⬜</span> 预约 Airporter 行李寄送（10.16 京都→关西机场）</li>
+                <li><span class="todo-icon">⬜</span> Klook 预约 Airporter 行李寄送（10.16 京都→关西机场）</li>
                 <li><span class="todo-icon">⬜</span> 预约 ライブ焼肉 てんぐ 千日前店（10.16 20:00）</li>
                 <li><span class="todo-icon">⬜</span> 关西机场办 ICOCA 卡（10.12 抵达后）</li>
                 <li><span class="todo-icon">⬜</span> 确认天桥立一日游集合时间地点（Klook/携程）</li>
@@ -1027,12 +1132,12 @@
             <div class="card-title">💡 实用贴士</div>
             <div class="tip-grid">
                 <div class="tip-item"><span class="tip-icon">🚇</span> <span><strong>ICOCA</strong> 关西机场 JR 站绿色窗口/自动售票机购买，有中文界面</span></div>
-                <div class="tip-item"><span class="tip-icon">📱</span> <span><strong>网络</strong> 淘宝电话卡抵达后激活，或 Bic Camera 购买</span></div>
-                <div class="tip-item"><span class="tip-icon">🧳</span> <span><strong>Airporter</strong> 提前1天 Klook/官网预约，当日达关西机场</span></div>
+                <div class="tip-item"><span class="tip-icon">📱</span> <span><strong>网络</strong> 淘宝电话卡抵达后激活（两人两张，10天每天3GB，合计160元）</span></div>
+                <div class="tip-item"><span class="tip-icon">🧳</span> <span><strong>Airporter</strong> Klook 提前预约，当日达关西机场</span></div>
                 <div class="tip-item"><span class="tip-icon">🕐</span> <span><strong>时区</strong> 日本 UTC+9，比北京时间早 1 小时</span></div>
                 <div class="tip-item"><span class="tip-icon">♻️</span> <span><strong>垃圾</strong> 日本垃圾桶少，随身带小垃圾袋</span></div>
                 <div class="tip-item"><span class="tip-icon">🔌</span> <span><strong>插头</strong> 两脚扁插（A型），电压 100V，国内两脚可用</span></div>
-                <div class="tip-item"><span class="tip-icon">📞</span> <span><strong>紧急</strong> 报警 110 · 火警/急救 119</span></div>
+                <div class="tip-item"><span class="tip-icon">📞</span> <span><strong>紧急</strong> 报警 110 · 火警/急救 119（日本通用）</span></div>
             </div>
 
             <!-- 汇率计算器 -->
@@ -1042,28 +1147,42 @@
                     <button class="refresh-btn" onclick="fetchRate()">↻ 刷新汇率</button>
                 </div>
                 <div class="rate-box" id="rateBox">
-                    <div class="row">
-                        <span class="label">1 人民币 (CNY) =</span>
-                        <span class="value" id="cnyToJpy">加载中...</span>
+                    <!-- 双向输入 -->
+                    <div class="rate-input-group">
+                        <div class="input-wrap">
+                            <label>人民币 (CNY)</label>
+                            <input type="number" id="cnyInput" placeholder="输入金额" step="any" min="0" oninput="convertFromCNY()">
+                            <div class="currency-label">≈ <span id="cnyToJpyDisplay">--</span> 日元</div>
+                        </div>
+                        <div class="input-wrap">
+                            <label>日元 (JPY)</label>
+                            <input type="number" id="jpyInput" placeholder="输入金额" step="any" min="0" oninput="convertFromJPY()">
+                            <div class="currency-label">≈ <span id="jpyToCnyDisplay">--</span> 人民币</div>
+                        </div>
                     </div>
-                    <div class="row">
-                        <span class="label">1 日元 (JPY) =</span>
-                        <span class="value" id="jpyToCny">加载中...</span>
+
+                    <!-- 快速参考 -->
+                    <div class="quick-amounts">
+                        <button class="quick-btn" onclick="setQuickAmount(80000, 'jpy')">💰 8万现金</button>
+                        <button class="quick-btn" onclick="setQuickAmount(10000, 'jpy')">📱 1万西瓜卡</button>
+                        <button class="quick-btn" onclick="setQuickAmount(90000, 'jpy')">💳 9万合计</button>
                     </div>
+
                     <div class="divider"></div>
+
                     <div class="row">
                         <span class="label">💰 现金 (8万日元)</span>
-                        <span class="value" id="cashCny">≈ 加载中...</span>
+                        <span class="value" id="cashCny">≈ -- 人民币</span>
                     </div>
                     <div class="row">
                         <span class="label">📱 西瓜卡 (1万日元)</span>
-                        <span class="value" id="suicaCny">≈ 加载中...</span>
+                        <span class="value" id="suicaCny">≈ -- 人民币</span>
                     </div>
                     <div class="row" style="font-weight:700;border-top:1px solid var(--border);padding-top:8px;margin-top:4px;">
                         <span class="label">💳 合计 (9万日元)</span>
-                        <span class="value" id="totalCny">≈ 加载中...</span>
+                        <span class="value" id="totalCny">≈ -- 人民币</span>
                     </div>
-                    <div class="rate-note" id="rateNote">上次更新：加载中...</div>
+                    <div class="rate-note" id="rateNote">🔄 加载汇率中...</div>
                 </div>
             </div>
         </div>
@@ -1080,8 +1199,7 @@
 
     <script>
         // =============================================
-        // 数据：所有行程事件（用于倒计时）
-        // 修改：第一个事件改为「银川→大阪」
+        // 数据：所有行程事件
         // =============================================
         const EVENTS = [
             { label: '✈️ 银川→大阪', date: '2026-10-11T14:30:00+09:00' },
@@ -1216,85 +1334,110 @@
         window.toggleTheme = toggleTheme;
 
         // =============================================
-        // 汇率计算器（免费 API + 本地缓存）
+        // 汇率计算器（交互版）
         // =============================================
-        let cachedRate = null;
-        let rateTimestamp = null;
+        let currentRate = 0;
 
         async function fetchRate() {
-            const rateDisplay = document.getElementById('cnyToJpy');
-            const jpyDisplay = document.getElementById('jpyToCny');
-            const cashDisplay = document.getElementById('cashCny');
-            const suicaDisplay = document.getElementById('suicaCny');
-            const totalDisplay = document.getElementById('totalCny');
             const noteEl = document.getElementById('rateNote');
-
-            // 先用缓存（如果 10 分钟内有效）
-            if (cachedRate && rateTimestamp && (Date.now() - rateTimestamp < 10 * 60 * 1000)) {
-                updateRateDisplay(cachedRate);
-                return;
-            }
-
-            rateDisplay.textContent = '⏳ 获取中...';
-            jpyDisplay.textContent = '⏳ 获取中...';
+            noteEl.textContent = '⏳ 获取汇率中...';
 
             try {
-                // 使用免费汇率 API（exchangerate-api 无需 key，但有请求限制）
                 const resp = await fetch('https://api.exchangerate-api.com/v4/latest/CNY');
                 if (!resp.ok) throw new Error('API 请求失败');
                 const data = await resp.json();
                 const rate = data.rates.JPY;
                 if (!rate) throw new Error('未获取到 JPY 汇率');
-
-                cachedRate = rate;
-                rateTimestamp = Date.now();
-                updateRateDisplay(rate);
+                currentRate = rate;
+                const now = new Date();
+                noteEl.textContent = `🔄 更新于 ${now.toLocaleString('zh-CN', { hour12: false })} · 1 CNY ≈ ${rate.toFixed(2)} JPY`;
+                updateAllDisplays();
             } catch (err) {
-                console.warn('汇率 API 获取失败，使用备用估算值', err);
-                // 备用：用近似汇率 1 CNY ≈ 20.5 JPY（2026 年 9 月参考）
-                const fallback = 20.5;
-                cachedRate = fallback;
-                rateTimestamp = Date.now();
-                updateRateDisplay(fallback);
+                console.warn('汇率 API 失败，使用备用估算值', err);
+                currentRate = 20.5;
                 noteEl.textContent = '⚠️ 当前为估算汇率（约 1:20.5），点击刷新获取实时数据';
+                updateAllDisplays();
             }
         }
 
-        function updateRateDisplay(rate) {
-            const jpyPerCny = rate;
-            const cnyPerJpy = 1 / rate;
-
-            document.getElementById('cnyToJpy').textContent = `${jpyPerCny.toFixed(2)} 日元`;
-            document.getElementById('jpyToCny').textContent = `${cnyPerJpy.toFixed(4)} 人民币`;
-
-            // 8万日元现金
-            const cashJpy = 80000;
-            const cashCny = cashJpy * cnyPerJpy;
-            document.getElementById('cashCny').textContent = `≈ ${cashCny.toFixed(2)} 人民币`;
-
-            // 1万日元西瓜卡
-            const suicaJpy = 10000;
-            const suicaCny = suicaJpy * cnyPerJpy;
-            document.getElementById('suicaCny').textContent = `≈ ${suicaCny.toFixed(2)} 人民币`;
-
-            // 合计 9万日元
-            const totalJpy = 90000;
-            const totalCny = totalJpy * cnyPerJpy;
-            document.getElementById('totalCny').textContent = `≈ ${totalCny.toFixed(2)} 人民币`;
-
-            const now = new Date();
-            document.getElementById('rateNote').textContent =
-                `🔄 更新于 ${now.toLocaleString('zh-CN', { hour12: false })} · 数据来自 exchangerate-api.com`;
+        function updateAllDisplays() {
+            if (!currentRate) return;
+            // 如果输入框有值，重新计算
+            const cnyVal = parseFloat(document.getElementById('cnyInput').value);
+            const jpyVal = parseFloat(document.getElementById('jpyInput').value);
+            if (!isNaN(cnyVal) && cnyVal > 0) {
+                convertFromCNY();
+            } else if (!isNaN(jpyVal) && jpyVal > 0) {
+                convertFromJPY();
+            } else {
+                // 默认显示 0
+                document.getElementById('cnyToJpyDisplay').textContent = '--';
+                document.getElementById('jpyToCnyDisplay').textContent = '--';
+                document.getElementById('cashCny').textContent = '≈ -- 人民币';
+                document.getElementById('suicaCny').textContent = '≈ -- 人民币';
+                document.getElementById('totalCny').textContent = '≈ -- 人民币';
+            }
         }
 
-        // 页面加载后自动获取汇率
+        function convertFromCNY() {
+            const cny = parseFloat(document.getElementById('cnyInput').value);
+            if (isNaN(cny) || cny <= 0) {
+                document.getElementById('cnyToJpyDisplay').textContent = '--';
+                return;
+            }
+            const jpy = cny * currentRate;
+            document.getElementById('cnyToJpyDisplay').textContent = jpy.toFixed(2);
+            // 同步到日元输入框（不触发循环）
+            document.getElementById('jpyInput').value = jpy.toFixed(0);
+            // 计算快速参考
+            updateQuickRefs();
+        }
+
+        function convertFromJPY() {
+            const jpy = parseFloat(document.getElementById('jpyInput').value);
+            if (isNaN(jpy) || jpy <= 0) {
+                document.getElementById('jpyToCnyDisplay').textContent = '--';
+                return;
+            }
+            const cny = jpy / currentRate;
+            document.getElementById('jpyToCnyDisplay').textContent = cny.toFixed(2);
+            document.getElementById('cnyInput').value = cny.toFixed(2);
+            updateQuickRefs();
+        }
+
+        function updateQuickRefs() {
+            if (!currentRate) return;
+            const cashJpy = 80000;
+            const suicaJpy = 10000;
+            const totalJpy = 90000;
+            document.getElementById('cashCny').textContent = `≈ ${(cashJpy / currentRate).toFixed(2)} 人民币`;
+            document.getElementById('suicaCny').textContent = `≈ ${(suicaJpy / currentRate).toFixed(2)} 人民币`;
+            document.getElementById('totalCny').textContent = `≈ ${(totalJpy / currentRate).toFixed(2)} 人民币`;
+        }
+
+        function setQuickAmount(amount, type) {
+            if (type === 'jpy') {
+                document.getElementById('jpyInput').value = amount;
+                convertFromJPY();
+            } else {
+                document.getElementById('cnyInput').value = amount;
+                convertFromCNY();
+            }
+        }
+
+        // 页面加载后获取汇率
         fetchRate();
+        // 每 15 分钟自动刷新
+        setInterval(fetchRate, 15 * 60 * 1000);
 
-        // 每 10 分钟自动刷新一次汇率
-        setInterval(fetchRate, 10 * 60 * 1000);
+        window.fetchRate = fetchRate;
+        window.convertFromCNY = convertFromCNY;
+        window.convertFromJPY = convertFromJPY;
+        window.setQuickAmount = setQuickAmount;
 
-        console.log('✅ 京都·大阪 旅行手册已加载 (已修改：倒计时事件、贴士、汇率计算器)');
+        console.log('✅ 京都·大阪 旅行手册 最终版已加载');
         console.log('📍 时区: 日本 UTC+9');
+        console.log('📅 修改内容: 航班14:30、删除奈良、删除花火、酒店价格、电话卡、Airporter(Klook)、无碍山房移白天、岚山喜重郎、烧肉待预约、天桥立烧肉放题、GOKAGO&八十八良叶、交互汇率');
     </script>
 
 </body>
