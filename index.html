@@ -429,6 +429,59 @@
             text-align: center;
         }
 
+        /* ===== 汇率计算器 ===== */
+        .rate-box {
+            background: var(--bg);
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-top: 4px;
+            transition: background var(--transition);
+        }
+        .rate-box .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 14px;
+            flex-wrap: wrap;
+            gap: 4px 8px;
+        }
+        .rate-box .row .label {
+            color: var(--muted);
+        }
+        .rate-box .row .value {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        .rate-box .row .value .big {
+            font-size: 18px;
+        }
+        .rate-box .divider {
+            border-top: 1px solid var(--border);
+            margin: 10px 0;
+        }
+        .rate-box .refresh-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-size: 12px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .rate-box .refresh-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .rate-box .rate-note {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
         /* ===== 响应式 & 微调 ===== */
         @media (max-width: 480px) {
             .container {
@@ -454,6 +507,9 @@
             .info-body {
                 font-size: 13px;
             }
+            .rate-box .row {
+                font-size: 13px;
+            }
         }
         @media print {
             .theme-toggle {
@@ -477,7 +533,6 @@
             }
         }
 
-        /* 辅助 */
         .text-muted {
             color: var(--muted);
         }
@@ -489,9 +544,6 @@
             justify-content: space-between;
             align-items: center;
         }
-        .gap-4 {
-            gap: 4px;
-        }
         .fw-600 {
             font-weight: 600;
         }
@@ -499,7 +551,6 @@
             font-size: 12px;
         }
 
-        /* 夜间模式微调 */
         [data-theme="dark"] .countdown-item {
             background: #2f2f35;
         }
@@ -518,6 +569,12 @@
         }
         [data-theme="dark"] .day-route-toggle {
             color: #e67e22;
+        }
+        [data-theme="dark"] .rate-box {
+            background: #2f2f35;
+        }
+        [data-theme="dark"] .rate-box .refresh-btn {
+            background: #3a3a40;
         }
     </style>
 </head>
@@ -551,14 +608,11 @@
             <div class="card-title">🗺️ 行程总览 · 手绘路线</div>
             <div class="map-wrap">
                 <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg" style="background:var(--bg);border-radius:12px;transition:background var(--transition);">
-                    <!-- 背景底纹 -->
                     <rect width="600" height="320" fill="var(--bg)" rx="12" ry="12" />
-                    <!-- 日本列岛轮廓（示意） -->
                     <path d="M180,40 Q210,20 260,30 Q300,38 320,60 Q340,90 330,130 Q320,160 300,180 Q280,200 250,210 Q220,220 200,240 Q180,260 170,280 Q160,300 140,300 Q120,300 110,280 Q100,260 120,230 Q140,200 150,170 Q160,140 150,110 Q140,80 160,60 Q170,48 180,40Z"
                     fill="none" stroke="var(--muted)" stroke-width="1.2" opacity="0.2" />
                     <text x="140" y="140" font-size="11" fill="var(--muted)" opacity="0.3" font-weight="300">日本</text>
 
-                    <!-- 路线：按天着色 -->
                     <!-- Day1: 10.12 济南→大阪→京都 (#e74c3c) -->
                     <polyline points="40,190 80,180 140,160 200,140 250,130 300,120 340,110 380,100 420,90"
                     stroke="#e74c3c" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
@@ -967,7 +1021,7 @@
         </div>
 
         <!-- ========================================= -->
-        <!-- 实用贴士 -->
+        <!-- 实用贴士 + 汇率计算器 -->
         <!-- ========================================= -->
         <div class="card">
             <div class="card-title">💡 实用贴士</div>
@@ -975,12 +1029,42 @@
                 <div class="tip-item"><span class="tip-icon">🚇</span> <span><strong>ICOCA</strong> 关西机场 JR 站绿色窗口/自动售票机购买，有中文界面</span></div>
                 <div class="tip-item"><span class="tip-icon">📱</span> <span><strong>网络</strong> 淘宝电话卡抵达后激活，或 Bic Camera 购买</span></div>
                 <div class="tip-item"><span class="tip-icon">🧳</span> <span><strong>Airporter</strong> 提前1天 Klook/官网预约，当日达关西机场</span></div>
-                <div class="tip-item"><span class="tip-icon">🏛️</span> <span><strong>博物馆</strong> 周一常休，建议提前官网确认</span></div>
                 <div class="tip-item"><span class="tip-icon">🕐</span> <span><strong>时区</strong> 日本 UTC+9，比北京时间早 1 小时</span></div>
-                <div class="tip-item"><span class="tip-icon">💴</span> <span><strong>现金</strong> 建议备 3-5 万日元，部分小店只收现金</span></div>
                 <div class="tip-item"><span class="tip-icon">♻️</span> <span><strong>垃圾</strong> 日本垃圾桶少，随身带小垃圾袋</span></div>
                 <div class="tip-item"><span class="tip-icon">🔌</span> <span><strong>插头</strong> 两脚扁插（A型），电压 100V，国内两脚可用</span></div>
                 <div class="tip-item"><span class="tip-icon">📞</span> <span><strong>紧急</strong> 报警 110 · 火警/急救 119</span></div>
+            </div>
+
+            <!-- 汇率计算器 -->
+            <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                    <span style="font-weight:600;font-size:14px;">💴 汇率计算器</span>
+                    <button class="refresh-btn" onclick="fetchRate()">↻ 刷新汇率</button>
+                </div>
+                <div class="rate-box" id="rateBox">
+                    <div class="row">
+                        <span class="label">1 人民币 (CNY) =</span>
+                        <span class="value" id="cnyToJpy">加载中...</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">1 日元 (JPY) =</span>
+                        <span class="value" id="jpyToCny">加载中...</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="row">
+                        <span class="label">💰 现金 (8万日元)</span>
+                        <span class="value" id="cashCny">≈ 加载中...</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">📱 西瓜卡 (1万日元)</span>
+                        <span class="value" id="suicaCny">≈ 加载中...</span>
+                    </div>
+                    <div class="row" style="font-weight:700;border-top:1px solid var(--border);padding-top:8px;margin-top:4px;">
+                        <span class="label">💳 合计 (9万日元)</span>
+                        <span class="value" id="totalCny">≈ 加载中...</span>
+                    </div>
+                    <div class="rate-note" id="rateNote">上次更新：加载中...</div>
+                </div>
             </div>
         </div>
 
@@ -997,9 +1081,10 @@
     <script>
         // =============================================
         // 数据：所有行程事件（用于倒计时）
+        // 修改：第一个事件改为「银川→大阪」
         // =============================================
         const EVENTS = [
-            { label: '✈️ 银川→济南', date: '2026-10-11T14:30:00+09:00' },
+            { label: '✈️ 银川→大阪', date: '2026-10-11T14:30:00+09:00' },
             { label: '✈️ 济南→大阪', date: '2026-10-12T11:20:00+09:00' },
             { label: '🏨 入住京都酒店', date: '2026-10-12T17:00:00+09:00' },
             { label: '🏨 退房京都→大阪', date: '2026-10-16T08:30:00+09:00' },
@@ -1061,7 +1146,6 @@
             cdSecs.textContent = String(secs).padStart(2, '0');
         }
 
-        // 每秒更新
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
@@ -1069,11 +1153,8 @@
         // 每日路线折叠展开
         // =============================================
         function toggleRoute(el) {
-            // 如果点击的是 button，它的父级 .day-header 会触发 onclick，事件冒泡可能重复
-            // 用 event.target 判断，但为了简单，我们找最近的 .day-block 下的 .day-route-map
             let block = el.closest ? el.closest('.day-block') : el.parentElement.closest('.day-block');
             if (!block) {
-                // 如果 el 是 button，parent 是 .day-header
                 const header = el.closest ? el.closest('.day-header') : el.parentElement;
                 if (header) block = header.closest('.day-block');
             }
@@ -1090,12 +1171,10 @@
         function openMap(url) {
             window.open(url, '_blank');
         }
-
-        // 把 openMap 挂到 window 上，供 onclick 调用
         window.openMap = openMap;
 
         // =============================================
-        // 主题切换 (白天/黑夜)
+        // 主题切换
         // =============================================
         function getSystemTheme() {
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -1120,7 +1199,6 @@
             setTheme(current === 'dark' ? 'light' : 'dark');
         }
 
-        // 初始化主题
         (function initTheme() {
             const saved = localStorage.getItem('theme');
             if (saved) {
@@ -1128,7 +1206,6 @@
             } else {
                 setTheme(getSystemTheme());
             }
-            // 监听系统主题变化
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
                 if (!localStorage.getItem('theme')) {
                     setTheme(e.matches ? 'dark' : 'light');
@@ -1136,15 +1213,88 @@
             });
         })();
 
-        // 挂载 toggleTheme 到 window
         window.toggleTheme = toggleTheme;
 
         // =============================================
-        // 地图 SVG 内嵌点击（可选）—— 所有点击已通过 clickable 实现
+        // 汇率计算器（免费 API + 本地缓存）
         // =============================================
-        console.log('✅ 京都·大阪 旅行手册已加载');
+        let cachedRate = null;
+        let rateTimestamp = null;
+
+        async function fetchRate() {
+            const rateDisplay = document.getElementById('cnyToJpy');
+            const jpyDisplay = document.getElementById('jpyToCny');
+            const cashDisplay = document.getElementById('cashCny');
+            const suicaDisplay = document.getElementById('suicaCny');
+            const totalDisplay = document.getElementById('totalCny');
+            const noteEl = document.getElementById('rateNote');
+
+            // 先用缓存（如果 10 分钟内有效）
+            if (cachedRate && rateTimestamp && (Date.now() - rateTimestamp < 10 * 60 * 1000)) {
+                updateRateDisplay(cachedRate);
+                return;
+            }
+
+            rateDisplay.textContent = '⏳ 获取中...';
+            jpyDisplay.textContent = '⏳ 获取中...';
+
+            try {
+                // 使用免费汇率 API（exchangerate-api 无需 key，但有请求限制）
+                const resp = await fetch('https://api.exchangerate-api.com/v4/latest/CNY');
+                if (!resp.ok) throw new Error('API 请求失败');
+                const data = await resp.json();
+                const rate = data.rates.JPY;
+                if (!rate) throw new Error('未获取到 JPY 汇率');
+
+                cachedRate = rate;
+                rateTimestamp = Date.now();
+                updateRateDisplay(rate);
+            } catch (err) {
+                console.warn('汇率 API 获取失败，使用备用估算值', err);
+                // 备用：用近似汇率 1 CNY ≈ 20.5 JPY（2026 年 9 月参考）
+                const fallback = 20.5;
+                cachedRate = fallback;
+                rateTimestamp = Date.now();
+                updateRateDisplay(fallback);
+                noteEl.textContent = '⚠️ 当前为估算汇率（约 1:20.5），点击刷新获取实时数据';
+            }
+        }
+
+        function updateRateDisplay(rate) {
+            const jpyPerCny = rate;
+            const cnyPerJpy = 1 / rate;
+
+            document.getElementById('cnyToJpy').textContent = `${jpyPerCny.toFixed(2)} 日元`;
+            document.getElementById('jpyToCny').textContent = `${cnyPerJpy.toFixed(4)} 人民币`;
+
+            // 8万日元现金
+            const cashJpy = 80000;
+            const cashCny = cashJpy * cnyPerJpy;
+            document.getElementById('cashCny').textContent = `≈ ${cashCny.toFixed(2)} 人民币`;
+
+            // 1万日元西瓜卡
+            const suicaJpy = 10000;
+            const suicaCny = suicaJpy * cnyPerJpy;
+            document.getElementById('suicaCny').textContent = `≈ ${suicaCny.toFixed(2)} 人民币`;
+
+            // 合计 9万日元
+            const totalJpy = 90000;
+            const totalCny = totalJpy * cnyPerJpy;
+            document.getElementById('totalCny').textContent = `≈ ${totalCny.toFixed(2)} 人民币`;
+
+            const now = new Date();
+            document.getElementById('rateNote').textContent =
+                `🔄 更新于 ${now.toLocaleString('zh-CN', { hour12: false })} · 数据来自 exchangerate-api.com`;
+        }
+
+        // 页面加载后自动获取汇率
+        fetchRate();
+
+        // 每 10 分钟自动刷新一次汇率
+        setInterval(fetchRate, 10 * 60 * 1000);
+
+        console.log('✅ 京都·大阪 旅行手册已加载 (已修改：倒计时事件、贴士、汇率计算器)');
         console.log('📍 时区: 日本 UTC+9');
-        console.log('📅 下一个事件:', getNextEvent());
     </script>
 
 </body>
