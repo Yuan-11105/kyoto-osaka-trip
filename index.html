@@ -5,913 +5,266 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>京都·大阪 旅行手册</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg: #f7f3ee;
-            --card: #ffffff;
-            --text: #2c2c2c;
-            --muted: #7a7a7a;
-            --accent: #c0392b;
-            --accent2: #d4a373;
-            --border: #e8e0d8;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            --radius: 20px;
+            --bg: #f7f3ee; --card: #ffffff; --text: #2c2c2c; --muted: #7a7a7a;
+            --accent: #c0392b; --accent2: #d4a373; --border: #e8e0d8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.06); --radius: 20px;
             --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            --transition: 0.3s ease;
-            --input-bg: #f0ebe6;
-            --map-bg: #e8e0d8;
+            --transition: 0.3s ease; --input-bg: #f0ebe6;
         }
         [data-theme="dark"] {
-            --bg: #1a1a1e;
-            --card: #26262b;
-            --text: #ececec;
-            --muted: #a0a0a0;
-            --border: #3a3a40;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --input-bg: #323238;
-            --map-bg: #2a2a30;
+            --bg: #1a1a1e; --card: #26262b; --text: #ececec; --muted: #a0a0a0;
+            --border: #3a3a40; --shadow: 0 4px 20px rgba(0, 0, 0, 0.3); --input-bg: #323238;
         }
         html, body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font);
-            line-height: 1.6;
-            transition: background var(--transition), color var(--transition);
-            padding: 0 0 60px 0;
-            min-height: 100vh;
+            background: var(--bg); color: var(--text); font-family: var(--font);
+            line-height: 1.6; transition: background var(--transition), color var(--transition);
+            padding: 0 0 60px 0; min-height: 100vh;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 16px 16px 0;
-        }
+        .container { max-width: 600px; margin: 0 auto; padding: 16px 16px 0; }
 
-        /* ===== 主题切换按钮 ===== */
         .theme-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 40px;
-            padding: 10px 16px;
-            font-size: 14px;
-            color: var(--text);
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: all var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 500;
+            position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 40px; padding: 10px 16px; font-size: 14px; color: var(--text);
+            box-shadow: var(--shadow); cursor: pointer; transition: all var(--transition);
+            display: flex; align-items: center; gap: 6px; font-weight: 500;
         }
-        .theme-toggle:hover {
-            transform: scale(1.04);
-        }
+        .theme-toggle:hover { transform: scale(1.04); }
 
-        /* ===== 卡片 ===== */
         .card {
-            background: var(--card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 20px 18px;
-            margin-bottom: 18px;
+            background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+            padding: 20px 18px; margin-bottom: 18px;
             transition: background var(--transition), box-shadow var(--transition);
             border: 1px solid var(--border);
         }
         .card-title {
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+            text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
         }
         .card-title .badge {
-            background: var(--accent);
-            color: #fff;
-            font-size: 10px;
-            padding: 0 8px;
-            border-radius: 30px;
-            line-height: 18px;
-            text-transform: none;
-            letter-spacing: 0;
+            background: var(--accent); color: #fff; font-size: 10px;
+            padding: 0 8px; border-radius: 30px; line-height: 18px;
+            text-transform: none; letter-spacing: 0;
         }
 
-        /* ===== 顶部「此刻关注」 ===== */
+        /* 顶部「此刻关注」 */
         .now-card {
             padding: 24px 18px 20px;
             background: linear-gradient(145deg, var(--card), var(--card));
             border-left: 4px solid var(--accent);
         }
-        .now-label {
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-        }
-        .now-event {
-            font-size: 20px;
-            font-weight: 700;
-            margin: 4px 0 8px;
-            line-height: 1.3;
-        }
-        .now-event .sub {
-            font-weight: 400;
-            font-size: 14px;
-            color: var(--muted);
-        }
-        .countdown {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
+        .now-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+        .now-event { font-size: 20px; font-weight: 700; margin: 4px 0 8px; line-height: 1.3; }
+        .now-event .sub { font-weight: 400; font-size: 14px; color: var(--muted); }
+        .countdown { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
         .countdown-item {
-            background: var(--bg);
-            border-radius: 14px;
-            padding: 6px 14px 4px;
-            min-width: 60px;
-            text-align: center;
-            transition: background var(--transition);
+            background: var(--bg); border-radius: 14px; padding: 6px 14px 4px;
+            min-width: 60px; text-align: center; transition: background var(--transition);
         }
-        .countdown-item .num {
-            font-size: 32px;
-            font-weight: 700;
-            line-height: 1.2;
-            font-variant-numeric: tabular-nums;
-            color: var(--accent);
+        .countdown-item .num { font-size: 32px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; color: var(--accent); }
+        .countdown-item .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+        .countdown-sep { font-size: 28px; font-weight: 300; color: var(--muted); align-self: center; line-height: 1; }
+
+        /* 总览手绘地图 */
+        .map-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 4px 0; }
+        .map-wrap svg { display: block; width: 100%; height: auto; min-width: 320px; }
+        .map-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; font-size: 12px; }
+        .map-legend .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+
+        /* 商场手绘地图容器（可缩放/平移） */
+        .handmap-wrap {
+            position: relative; width: 100%; height: 320px; overflow: hidden;
+            border-radius: 12px; background: #faf6ef; touch-action: none;
+            cursor: grab; border: 1px solid var(--border);
+            user-select: none; -webkit-user-select: none;
         }
-        .countdown-item .label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--muted);
+        .handmap-wrap.grabbing { cursor: grabbing; }
+        .handmap-wrap svg { display: block; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; pointer-events: none; }
+        .handmap-controls { position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column; gap: 4px; z-index: 5; }
+        .handmap-controls button {
+            width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.92); color: #333; font-size: 16px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12); transition: all 0.15s;
         }
-        .countdown-sep {
-            font-size: 28px;
-            font-weight: 300;
-            color: var(--muted);
-            align-self: center;
-            line-height: 1;
+        .handmap-controls button:hover { background: #c0392b; color: #fff; }
+        .handmap-controls button:active { transform: scale(0.94); }
+        .handmap-hint {
+            position: absolute; bottom: 8px; left: 8px;
+            background: rgba(255,255,255,0.88); border-radius: 6px;
+            padding: 3px 10px; font-size: 11px; color: #666;
+            pointer-events: none; z-index: 5;
         }
 
-        /* ===== Google 地图容器 ===== */
-        .map-container {
-            width: 100%;
-            height: 260px;
-            border-radius: 12px;
-            overflow: hidden;
-            background: var(--map-bg);
-            margin-bottom: 12px;
-            position: relative;
-        }
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            display: block;
-        }
-        .map-container-sm {
-            height: 200px;
-        }
-        .map-overlay {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 4px 10px;
-            font-size: 11px;
-            color: var(--text);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            z-index: 10;
-            font-weight: 500;
-        }
+        /* 手绘地图配色（日/夜） */
+        .hm-bg { fill: #faf6ef; }
+        .hm-road-main { stroke: #d8c8a8; }
+        .hm-road-sub { stroke: #e8dcc4; }
+        .hm-road-small { stroke: #eee4d0; }
+        .hm-river { fill: #b8d8e8; }
+        .hm-label { fill: #4a4a4a; }
+        .hm-label-sm { fill: #7a7a7a; }
+        .hm-building { fill: #f5ede0; stroke: #c8b898; stroke-width: 1; }
+        .hm-building-hotel { fill: #ffd9d0; stroke: #e85d3a; stroke-width: 2; }
+        .hm-building-shop { fill: #e8e4f0; stroke: #a898c8; stroke-width: 1; }
+        .hm-building-dept { fill: #ffe8c0; stroke: #d4a040; stroke-width: 1; }
+        .hm-building-station { fill: #d8e8f0; stroke: #5080a0; stroke-width: 1.5; }
+        .hm-station-icon { fill: #5080a0; }
+        .hm-pin { fill: #e85d3a; }
 
-        /* ===== 信息卡（机票/酒店） ===== */
-        .info-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-        .info-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        .info-icon {
-            font-size: 20px;
-            width: 28px;
-            text-align: center;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .info-body {
-            flex: 1;
-            font-size: 14px;
-        }
-        .info-body .primary {
-            font-weight: 600;
-        }
-        .info-body .detail {
-            color: var(--muted);
-            font-size: 13px;
-        }
-        .info-body .price {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent);
-            margin-top: 2px;
-        }
-        .info-body .addr {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 2px;
-            word-break: break-all;
-        }
-        .info-body .tag {
-            display: inline-block;
-            background: var(--accent2);
-            color: #fff;
-            font-size: 10px;
-            padding: 0 10px;
-            border-radius: 30px;
-            line-height: 18px;
-            margin-top: 4px;
-            font-weight: 600;
-        }
-        .info-body .tag.blue {
-            background: #3b7cbf;
-        }
-        .info-body .tag.green {
-            background: #2a9d8f;
-        }
-        .info-body .tag.orange {
-            background: #e67e22;
-        }
-        .clickable {
-            color: var(--accent);
-            text-decoration: none;
-            border-bottom: 1px dashed var(--accent);
-            cursor: pointer;
-        }
-        .clickable:hover {
-            opacity: 0.7;
-        }
+        [data-theme="dark"] .handmap-wrap { background: #2a2620; }
+        [data-theme="dark"] .handmap-controls button { background: rgba(40,40,45,0.92); color: #ececec; border-color: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .handmap-hint { background: rgba(40,40,45,0.88); color: #aaa; }
+        [data-theme="dark"] .hm-bg { fill: #2a2620; }
+        [data-theme="dark"] .hm-road-main { stroke: #3d372e; }
+        [data-theme="dark"] .hm-road-sub { stroke: #322d26; }
+        [data-theme="dark"] .hm-road-small { stroke: #2f2a24; }
+        [data-theme="dark"] .hm-river { fill: #2a4a5a; }
+        [data-theme="dark"] .hm-label { fill: #d0d0d0; }
+        [data-theme="dark"] .hm-label-sm { fill: #909090; }
+        [data-theme="dark"] .hm-building { fill: #3a342c; stroke: #4a4438; }
+        [data-theme="dark"] .hm-building-hotel { fill: #5a2a24; stroke: #e85d3a; }
+        [data-theme="dark"] .hm-building-shop { fill: #3a3545; stroke: #7a6898; }
+        [data-theme="dark"] .hm-building-dept { fill: #4a3a20; stroke: #b89030; }
+        [data-theme="dark"] .hm-building-station { fill: #2a3a48; stroke: #5080a0; }
+        [data-theme="dark"] .hm-station-icon { fill: #5080a0; }
 
-        /* ===== 逐日行程 ===== */
-        .day-block {
-            margin-bottom: 18px;
-            border-left: 3px solid var(--accent2);
-            padding-left: 14px;
-        }
-        .day-block:last-child {
-            margin-bottom: 0;
-        }
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 4px 8px;
-            cursor: pointer;
-            user-select: none;
-        }
-        .day-header .day-label {
-            font-weight: 700;
-            font-size: 16px;
-        }
-        .day-header .day-sub {
-            font-size: 13px;
-            color: var(--muted);
-            font-weight: 400;
-        }
-        .day-route-toggle {
-            font-size: 12px;
-            color: var(--accent);
-            font-weight: 500;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 4px 0;
-        }
-        .day-route-toggle:hover {
-            text-decoration: underline;
-        }
-        .day-route-map {
-            display: none;
-            margin-top: 10px;
-            padding: 12px;
-            background: var(--bg);
-            border-radius: 12px;
-            font-size: 13px;
-            transition: background var(--transition);
-        }
-        .day-route-map.open {
-            display: block;
-        }
-        .day-route-map .route-step {
-            padding: 4px 0;
-            border-bottom: 1px dashed var(--border);
-            display: flex;
-            gap: 8px;
-        }
-        .day-route-map .route-step:last-child {
-            border-bottom: none;
-        }
-        .day-route-map .step-num {
-            color: var(--muted);
-            font-weight: 600;
-            min-width: 24px;
-        }
-        .day-items {
-            margin-top: 8px;
-        }
-        .day-item {
-            display: flex;
-            gap: 12px;
-            padding: 6px 0 6px 0;
-            font-size: 14px;
-            border-bottom: 1px solid var(--border);
-        }
-        .day-item:last-child {
-            border-bottom: none;
-        }
-        .day-item .time {
-            font-weight: 600;
-            white-space: nowrap;
-            min-width: 58px;
-            color: var(--accent);
-            font-variant-numeric: tabular-nums;
-        }
-        .day-item .content {
-            flex: 1;
-        }
-        .day-item .content .note {
-            font-size: 12px;
-            color: var(--muted);
-            display: block;
-        }
-        .day-item .content .reserve-tag {
-            display: inline-block;
-            background: #e67e22;
-            color: #fff;
-            font-size: 10px;
-            padding: 0 8px;
-            border-radius: 30px;
-            line-height: 18px;
-            font-weight: 600;
-            margin-left: 4px;
-        }
-        .day-item .content .reserve-tag.wait {
-            background: #e67e22;
-        }
+        /* 信息卡 */
+        .info-grid { display: flex; flex-direction: column; gap: 12px; }
+        .info-item { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .info-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .info-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; margin-top: 2px; }
+        .info-body { flex: 1; font-size: 14px; }
+        .info-body .primary { font-weight: 600; }
+        .info-body .detail { color: var(--muted); font-size: 13px; }
+        .info-body .price { font-size: 13px; font-weight: 600; color: var(--accent); margin-top: 2px; }
+        .info-body .addr { font-size: 12px; color: var(--muted); margin-top: 2px; word-break: break-all; }
+        .info-body .tag { display: inline-block; background: var(--accent2); color: #fff; font-size: 10px; padding: 0 10px; border-radius: 30px; line-height: 18px; margin-top: 4px; font-weight: 600; }
+        .info-body .tag.blue { background: #3b7cbf; }
+        .info-body .tag.green { background: #2a9d8f; }
+        .info-body .tag.orange { background: #e67e22; }
 
-        /* ===== 清单通用 ===== */
-        .list-container {
-            list-style: none;
-            padding: 0;
-        }
-        .list-container li {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-        .list-container li:last-child {
-            border-bottom: none;
-        }
-        .list-container li:hover {
-            background: var(--bg);
-        }
-        .list-check {
-            width: 22px;
-            height: 22px;
-            min-width: 22px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 1px;
-            font-size: 14px;
-            color: transparent;
-            user-select: none;
-            background: var(--card);
-        }
-        .list-check.checked {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #fff;
-        }
-        .list-check:hover {
-            border-color: var(--accent);
-        }
-        .list-text {
-            flex: 1;
-            word-break: break-word;
-            line-height: 1.5;
-            padding-top: 1px;
-        }
-        .list-text.done {
-            text-decoration: line-through;
-            color: var(--muted);
-        }
-        .list-delete {
-            display: none;
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            margin-top: -1px;
-            line-height: 1;
-            padding: 0;
-        }
-        .list-delete:hover {
-            color: #e74c3c;
-            background: rgba(231, 76, 60, 0.1);
-        }
-        .list-container.edit-mode .list-delete {
-            display: flex;
-        }
+        /* 逐日行程 */
+        .day-block { margin-bottom: 18px; border-left: 3px solid var(--accent2); padding-left: 14px; }
+        .day-block:last-child { margin-bottom: 0; }
+        .day-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; cursor: pointer; user-select: none; }
+        .day-header .day-label { font-weight: 700; font-size: 16px; }
+        .day-header .day-sub { font-size: 13px; color: var(--muted); font-weight: 400; }
+        .day-route-toggle { font-size: 12px; color: var(--accent); font-weight: 500; cursor: pointer; background: none; border: none; padding: 4px 0; }
+        .day-route-toggle:hover { text-decoration: underline; }
+        .day-route-map { display: none; margin-top: 10px; padding: 12px; background: var(--bg); border-radius: 12px; font-size: 13px; transition: background var(--transition); }
+        .day-route-map.open { display: block; }
+        .day-route-map .route-step { padding: 4px 0; border-bottom: 1px dashed var(--border); display: flex; gap: 8px; }
+        .day-route-map .route-step:last-child { border-bottom: none; }
+        .day-route-map .step-num { color: var(--muted); font-weight: 600; min-width: 24px; }
+        .day-items { margin-top: 8px; }
+        .day-item { display: flex; gap: 12px; padding: 6px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+        .day-item:last-child { border-bottom: none; }
+        .day-item .time { font-weight: 600; white-space: nowrap; min-width: 58px; color: var(--accent); font-variant-numeric: tabular-nums; }
+        .day-item .content { flex: 1; }
+        .day-item .content .note { font-size: 12px; color: var(--muted); display: block; }
+        .day-item .content .reserve-tag { display: inline-block; background: #e67e22; color: #fff; font-size: 10px; padding: 0 8px; border-radius: 30px; line-height: 18px; font-weight: 600; margin-left: 4px; }
 
-        /* ===== 购物清单编辑区 ===== */
-        .shop-input-area {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-        }
-        .shop-input-area input {
-            flex: 1;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            font-size: 14px;
-            background: var(--input-bg);
-            color: var(--text);
-            outline: none;
-            transition: border var(--transition);
-        }
-        .shop-input-area input:focus {
-            border-color: var(--accent);
-        }
-        .shop-input-area input::placeholder {
-            color: var(--muted);
-        }
-        .shop-add-btn {
-            padding: 10px 20px;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .shop-add-btn:hover {
-            opacity: 0.85;
-        }
-        .shop-add-btn:active {
-            transform: scale(0.97);
-        }
-        .shop-edit-toggle {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 4px 14px;
-            font-size: 12px;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-            margin-left: auto;
-        }
-        .shop-edit-toggle:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .shop-edit-toggle.active {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .shop-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .shop-stats {
-            font-size: 12px;
-            color: var(--muted);
-            font-weight: 400;
-        }
+        /* 清单 */
+        .list-container { list-style: none; padding: 0; }
+        .list-container li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .list-container li:last-child { border-bottom: none; }
+        .list-check { width: 22px; height: 22px; min-width: 22px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; margin-top: 1px; font-size: 14px; color: transparent; user-select: none; background: var(--card); }
+        .list-check.checked { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .list-check:hover { border-color: var(--accent); }
+        .list-text { flex: 1; word-break: break-word; line-height: 1.5; padding-top: 1px; }
+        .list-text.done { text-decoration: line-through; color: var(--muted); }
+        .list-delete { display: none; width: 24px; height: 24px; min-width: 24px; border: none; background: transparent; color: var(--muted); font-size: 18px; cursor: pointer; border-radius: 50%; align-items: center; justify-content: center; transition: all 0.2s; margin-top: -1px; line-height: 1; padding: 0; }
+        .list-delete:hover { color: #e74c3c; background: rgba(231, 76, 60, 0.1); }
+        .list-container.edit-mode .list-delete { display: flex; }
 
-        /* ===== 弹窗 ===== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-overlay.show {
-            display: flex;
-        }
-        .modal-box {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 340px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-        .modal-box p {
-            font-size: 15px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            color: var(--text);
-        }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        .modal-btn {
-            padding: 10px 28px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-        .modal-btn.cancel {
-            background: var(--bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-        .modal-btn.danger {
-            background: #e74c3c;
-            color: #fff;
-        }
-        .modal-btn:hover {
-            opacity: 0.85;
-        }
+        .shop-input-area { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+        .shop-input-area input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 12px; font-size: 14px; background: var(--input-bg); color: var(--text); outline: none; }
+        .shop-input-area input:focus { border-color: var(--accent); }
+        .shop-input-area input::placeholder { color: var(--muted); }
+        .shop-add-btn { padding: 10px 20px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .shop-add-btn:hover { opacity: 0.85; }
+        .shop-edit-toggle { background: var(--card); border: 1px solid var(--border); border-radius: 30px; padding: 4px 14px; font-size: 12px; color: var(--text); cursor: pointer; transition: all 0.2s; font-weight: 500; margin-left: auto; }
+        .shop-edit-toggle:hover, .shop-edit-toggle.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .shop-header { display: flex; align-items: center; gap: 8px; }
+        .shop-stats { font-size: 12px; color: var(--muted); font-weight: 400; }
 
-        /* ===== 实用贴士 ===== */
-        .tip-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .tip-item {
-            display: flex;
-            gap: 10px;
-            font-size: 14px;
-            padding: 6px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .tip-item:last-child {
-            border-bottom: none;
-        }
-        .tip-item .tip-icon {
-            font-size: 18px;
-            min-width: 28px;
-            text-align: center;
-        }
+        /* 弹窗 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.show { display: flex; }
+        .modal-box { background: var(--card); border-radius: 16px; padding: 24px; max-width: 340px; width: 100%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .modal-box p { font-size: 15px; margin-bottom: 20px; line-height: 1.5; color: var(--text); }
+        .modal-actions { display: flex; gap: 10px; justify-content: center; }
+        .modal-btn { padding: 10px 28px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+        .modal-btn.cancel { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .modal-btn.danger { background: #e74c3c; color: #fff; }
+        .modal-btn:hover { opacity: 0.85; }
 
-        /* ===== ICOCA 图片 ===== */
-        .icoca-thumb {
-            max-width: 120px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: block;
-            margin-top: 6px;
-        }
-        .icoca-thumb:hover {
-            transform: scale(1.03);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-        }
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.85);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            cursor: pointer;
-        }
-        .lightbox.show {
-            display: flex;
-        }
-        .lightbox img {
-            max-width: 95%;
-            max-height: 90vh;
-            border-radius: 8px;
-            object-fit: contain;
-        }
+        /* 贴士 */
+        .tip-grid { display: flex; flex-direction: column; gap: 10px; }
+        .tip-item { display: flex; gap: 10px; font-size: 14px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+        .tip-item:last-child { border-bottom: none; }
+        .tip-item .tip-icon { font-size: 18px; min-width: 28px; text-align: center; }
+        .icoca-thumb { max-width: 120px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; transition: transform 0.2s; display: block; margin-top: 6px; }
+        .icoca-thumb:hover { transform: scale(1.03); }
+        .lightbox { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; padding: 20px; cursor: pointer; }
+        .lightbox.show { display: flex; }
+        .lightbox img { max-width: 95%; max-height: 90vh; border-radius: 8px; object-fit: contain; }
 
-        /* ===== 汇率计算器（交互版） ===== */
-        .rate-box {
-            background: var(--bg);
-            border-radius: 14px;
-            padding: 16px 18px;
-            margin-top: 4px;
-            transition: background var(--transition);
-        }
-        .rate-box .row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0;
-            font-size: 14px;
-            flex-wrap: wrap;
-            gap: 4px 8px;
-        }
-        .rate-box .row .label {
-            color: var(--muted);
-        }
-        .rate-box .row .value {
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-        .rate-box .divider {
-            border-top: 1px solid var(--border);
-            margin: 10px 0;
-        }
-        .rate-box .refresh-btn {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 4px 14px;
-            font-size: 12px;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-        .rate-box .refresh-btn:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .rate-box .rate-note {
-            font-size: 11px;
-            color: var(--muted);
-            margin-top: 6px;
-        }
+        /* 汇率 */
+        .rate-box { background: var(--bg); border-radius: 14px; padding: 16px 18px; margin-top: 4px; transition: background var(--transition); }
+        .rate-box .row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 14px; flex-wrap: wrap; gap: 4px 8px; }
+        .rate-box .row .label { color: var(--muted); }
+        .rate-box .row .value { font-weight: 600; font-variant-numeric: tabular-nums; }
+        .rate-box .divider { border-top: 1px solid var(--border); margin: 10px 0; }
+        .refresh-btn { background: var(--card); border: 1px solid var(--border); border-radius: 30px; padding: 4px 14px; font-size: 12px; color: var(--text); cursor: pointer; transition: all 0.2s; font-weight: 500; }
+        .refresh-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .rate-note { font-size: 11px; color: var(--muted); margin-top: 6px; }
+        .rate-input-group { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0 6px; }
+        .rate-input-group .input-wrap { flex: 1; min-width: 120px; }
+        .rate-input-group label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+        .rate-input-group input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 18px; font-weight: 600; background: var(--input-bg); color: var(--text); font-variant-numeric: tabular-nums; outline: none; }
+        .rate-input-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15); }
+        .rate-input-group input::placeholder { color: var(--muted); font-weight: 400; font-size: 14px; }
+        .rate-input-group .currency-label { font-size: 12px; font-weight: 500; color: var(--muted); margin-top: 2px; text-align: right; }
+        .quick-amounts { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+        .quick-amounts .quick-btn { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 12px; color: var(--text); cursor: pointer; transition: all 0.2s; font-weight: 500; }
+        .quick-amounts .quick-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-        .rate-input-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 8px 0 6px;
-        }
-        .rate-input-group .input-wrap {
-            flex: 1;
-            min-width: 120px;
-        }
-        .rate-input-group label {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            margin-bottom: 2px;
-        }
-        .rate-input-group input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
-            background: var(--input-bg);
-            color: var(--text);
-            transition: border var(--transition), background var(--transition);
-            font-variant-numeric: tabular-nums;
-            outline: none;
-        }
-        .rate-input-group input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15);
-        }
-        .rate-input-group input::placeholder {
-            color: var(--muted);
-            font-weight: 400;
-            font-size: 14px;
-        }
-        .rate-input-group .currency-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--muted);
-            margin-top: 2px;
-            text-align: right;
-        }
-
-        .quick-amounts {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin: 8px 0 4px;
-        }
-        .quick-amounts .quick-btn {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 4px 14px;
-            font-size: 12px;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-        .quick-amounts .quick-btn:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-
-        /* ===== 响应式 & 微调 ===== */
         @media (max-width: 480px) {
-            .container {
-                padding: 12px 12px 0;
-            }
-            .card {
-                padding: 16px 14px;
-            }
-            .now-event {
-                font-size: 17px;
-            }
-            .countdown-item .num {
-                font-size: 26px;
-            }
-            .day-item {
-                font-size: 13px;
-                gap: 8px;
-            }
-            .day-item .time {
-                min-width: 48px;
-                font-size: 13px;
-            }
-            .info-body {
-                font-size: 13px;
-            }
-            .rate-box .row {
-                font-size: 13px;
-            }
-            .rate-input-group input {
-                font-size: 16px;
-                padding: 8px 10px;
-            }
-            .rate-input-group {
-                gap: 8px;
-            }
-            .map-container {
-                height: 200px;
-            }
-            .map-container-sm {
-                height: 160px;
-            }
-            .shop-input-area input {
-                font-size: 13px;
-                padding: 8px 12px;
-            }
-            .shop-add-btn {
-                padding: 8px 16px;
-                font-size: 13px;
-            }
+            .container { padding: 12px 12px 0; }
+            .card { padding: 16px 14px; }
+            .now-event { font-size: 17px; }
+            .countdown-item .num { font-size: 26px; }
+            .day-item { font-size: 13px; gap: 8px; }
+            .day-item .time { min-width: 48px; font-size: 13px; }
+            .info-body { font-size: 13px; }
+            .rate-input-group input { font-size: 16px; padding: 8px 10px; }
+            .handmap-wrap { height: 260px; }
         }
-        @media print {
-            .theme-toggle, .modal-overlay, .lightbox {
-                display: none !important;
-            }
-            .card {
-                box-shadow: none;
-                border: 1px solid #ccc;
-                break-inside: avoid;
-            }
-            body {
-                background: #fff;
-                color: #000;
-            }
-            [data-theme="dark"] {
-                --bg: #fff;
-                --card: #fff;
-                --text: #000;
-                --muted: #555;
-                --border: #ccc;
-                --input-bg: #f0ebe6;
-                --map-bg: #eee;
-            }
-        }
-
-        [data-theme="dark"] .countdown-item {
-            background: #2f2f35;
-        }
-        [data-theme="dark"] .day-route-map {
-            background: #2f2f35;
-        }
-        [data-theme="dark"] .now-card {
-            border-left-color: #e67e22;
-        }
-        [data-theme="dark"] .day-item .time {
-            color: #e67e22;
-        }
-        [data-theme="dark"] .clickable {
-            color: #e67e22;
-            border-bottom-color: #e67e22;
-        }
-        [data-theme="dark"] .day-route-toggle {
-            color: #e67e22;
-        }
-        [data-theme="dark"] .rate-box {
-            background: #2f2f35;
-        }
-        [data-theme="dark"] .rate-box .refresh-btn {
-            background: #3a3a40;
-        }
-        [data-theme="dark"] .quick-amounts .quick-btn {
-            background: #323238;
-        }
-        [data-theme="dark"] .rate-input-group input {
-            background: #323238;
-        }
-        [data-theme="dark"] .info-body .price {
-            color: #e67e22;
-        }
-        [data-theme="dark"] .list-check {
-            border-color: #555;
-        }
-        [data-theme="dark"] .list-check.checked {
-            background: #e67e22;
-            border-color: #e67e22;
-        }
-        [data-theme="dark"] .map-overlay {
-            background: #2a2a30;
-        }
-        [data-theme="dark"] .shop-input-area input {
-            background: #323238;
-        }
+        [data-theme="dark"] .now-card { border-left-color: #e67e22; }
+        [data-theme="dark"] .day-item .time { color: #e67e22; }
+        [data-theme="dark"] .day-route-toggle { color: #e67e22; }
+        [data-theme="dark"] .rate-box { background: #2f2f35; }
+        [data-theme="dark"] .rate-box .refresh-btn { background: #3a3a40; }
+        [data-theme="dark"] .quick-amounts .quick-btn { background: #323238; }
+        [data-theme="dark"] .rate-input-group input { background: #323238; }
+        [data-theme="dark"] .info-body .price { color: #e67e22; }
+        [data-theme="dark"] .list-check { border-color: #555; }
+        [data-theme="dark"] .list-check.checked { background: #e67e22; border-color: #e67e22; }
+        [data-theme="dark"] .shop-input-area input { background: #323238; }
+        [data-theme="dark"] .countdown-item { background: #2f2f35; }
+        [data-theme="dark"] .day-route-map { background: #2f2f35; }
     </style>
 </head>
 <body>
 
     <div class="container" id="app">
 
-        <!-- ========================================= -->
-        <!-- 顶部「此刻关注」 -->
-        <!-- ========================================= -->
+        <!-- 此刻关注 -->
         <div class="card now-card" id="nowCard">
             <div class="now-label">📍 此刻关注</div>
             <div class="now-event" id="nowEvent">加载中...</div>
@@ -926,432 +279,452 @@
             </div>
         </div>
 
-        <!-- ========================================= -->
-        <!-- 行程总览 Google 地图 -->
-        <!-- ========================================= -->
+        <!-- ============ 总览手绘地图（第一版风格） ============ -->
         <div class="card">
-            <div class="card-title">🗺️ 行程总览 · 路线地图</div>
-            <div class="map-container">
-                <div class="map-overlay">📍 大阪·京都</div>
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m64!1m12!1m3!1d209729.85323707943!2d135.42642035!3d34.85444035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m53!3e0!4m5!1s0x6000e6a2b5b5b5b5%3A0x1!2z5aSn6Ziq5rKz5Y6f55S65b2T5b6h6LaK5bqD5bqX!3m2!1d34.8524!2d135.7573!4m5!1s0x6000e6a2b5b5b5b5%3A0x2!2z5Lqs6YO95Z+O6Zmi5YmN55S65b2T5b6h6LaK5bqD5bqX!3m2!1d35.0116!2d135.7681!4m5!1s0x6000e6a2b5b5b5b5%3A0x3!2z5Lqs6YO95biC5Lic5bGx5Yy65Yik5p2x5aSn56S+!3m2!1d34.9671!2d135.7727!4m5!1s0x6000e6a2b5b5b5b5%3A0x4!2z5Lqs6YO95biC5Y%2Bz5Lqs5Yy65YWr5Z2C56We56S%2B!3m2!1d35.0036!2d135.7786!4m5!1s0x6000e6a2b5b5b5b5%3A0x5!2z5Lqs6YO95biC5Y%2Bz5Lqs5Yy65Yik5p2x5aSn56S%2B!3m2!1d35.0116!2d135.7681!4m5!1s0x6000e6a2b5b5b5b5%3A0x6!2z5aSn6Ziq5biC5Lit5aSu5Yy65b%2BD5paO5qmL!3m2!1d34.6723!2d135.5009!4m5!1s0x6000e6a2b5b5b5b5%3A0x7!2z5aSn6Ziq5biC5YyX5Yy65qKF55S2!3m2!1d34.7055!2d135.4985!4m5!1s0x6000e6a2b5b5b5b5%3A0x8!2z5aSn6Ziq5biC5aSp5qWL5qmL5biC6YeR5Y2O5bGx!3m2!1d35.0!2d135.0!4m5!1s0x6000e6a2b5b5b5b5%3A0x9!2z5YWz6KW%2F5Zu96ZmF56m65riv!3m2!1d34.4344!2d135.2329!5e0!3m2!1szh-CN!2sjp!4v1" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+            <div class="card-title">🗺️ 行程总览 · 手绘路线</div>
+            <div class="map-wrap">
+                <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg" style="background:var(--bg);border-radius:12px;transition:background var(--transition);">
+                    <rect width="600" height="320" fill="var(--bg)" rx="12" ry="12" />
+                    <!-- 日本轮廓示意 -->
+                    <path d="M180,40 Q210,20 260,30 Q300,38 320,60 Q340,90 330,130 Q320,160 300,180 Q280,200 250,210 Q220,220 200,240 Q180,260 170,280 Q160,300 140,300 Q120,300 110,280 Q100,260 120,230 Q140,200 150,170 Q160,140 150,110 Q140,80 160,60 Q170,48 180,40Z"
+                          fill="none" stroke="var(--muted)" stroke-width="1.2" opacity="0.2" />
+                    <text x="140" y="140" font-size="11" fill="var(--muted)" opacity="0.3" font-weight="300">日本</text>
+
+                    <!-- Day1 银川→济南→大阪→京都 -->
+                    <polyline points="40,190 80,180 140,160 200,140 250,130 300,120 340,110 380,100 420,90"
+                              stroke="#e74c3c" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+                    <circle cx="40" cy="190" r="5" fill="#e74c3c" />
+                    <text x="30" y="205" font-size="9" fill="var(--text)">银川</text>
+                    <circle cx="120" cy="168" r="5" fill="#e74c3c" />
+                    <text x="108" y="160" font-size="9" fill="var(--text)">济南</text>
+                    <circle cx="340" cy="110" r="5" fill="#e74c3c" />
+                    <text x="330" y="100" font-size="9" fill="var(--text)">大阪</text>
+                    <circle cx="420" cy="90" r="6" fill="#e74c3c" stroke="#fff" stroke-width="1.5" />
+                    <text x="410" y="80" font-size="9" fill="var(--text)" font-weight="600">京都</text>
+
+                    <!-- Day2-4 京都圈 -->
+                    <circle cx="420" cy="90" r="6" fill="none" stroke="#e67e22" stroke-width="3" />
+                    <circle cx="460" cy="70" r="4" fill="#e67e22" />
+                    <text x="452" y="62" font-size="8" fill="var(--text)">伏见</text>
+                    <circle cx="440" cy="60" r="4" fill="#e67e22" />
+                    <text x="432" y="52" font-size="8" fill="var(--text)">清水</text>
+                    <circle cx="470" cy="100" r="4" fill="#e67e22" />
+                    <text x="462" y="112" font-size="8" fill="var(--text)">宇治</text>
+                    <text x="480" y="90" font-size="8" fill="var(--muted)" opacity="0.7">Day2-4</text>
+
+                    <!-- Day5 京都→岚山→大阪 -->
+                    <polyline points="420,90 380,80 340,100 300,110 340,110"
+                              stroke="#2980b9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4" />
+                    <circle cx="380" cy="80" r="4" fill="#2980b9" />
+                    <text x="370" y="72" font-size="8" fill="var(--text)">岚山</text>
+                    <circle cx="340" cy="110" r="5" fill="#2980b9" stroke="#fff" stroke-width="1.2" />
+
+                    <!-- Day6-8 大阪圈 -->
+                    <circle cx="340" cy="110" r="6" fill="none" stroke="#27ae60" stroke-width="3" />
+                    <circle cx="310" cy="130" r="4" fill="#27ae60" />
+                    <text x="298" y="142" font-size="8" fill="var(--text)">梅田</text>
+                    <circle cx="350" cy="140" r="4" fill="#27ae60" />
+                    <text x="342" y="152" font-size="8" fill="var(--text)">心斋桥</text>
+                    <circle cx="280" cy="120" r="4" fill="#27ae60" />
+                    <text x="258" y="120" font-size="8" fill="var(--text)">天桥立</text>
+                    <text x="350" y="128" font-size="8" fill="var(--muted)" opacity="0.7">Day6-8</text>
+
+                    <!-- 图例 -->
+                    <rect x="20" y="270" width="560" height="40" fill="var(--card)" rx="8" opacity="0.8" />
+                    <text x="30" y="286" font-size="10" fill="var(--text)" font-weight="500">图例：</text>
+                    <line x1="78" y1="283" x2="108" y2="283" stroke="#e74c3c" stroke-width="3" />
+                    <text x="114" y="288" font-size="9" fill="var(--text)">Day1 移动</text>
+                    <line x1="178" y1="283" x2="208" y2="283" stroke="#e67e22" stroke-width="3" />
+                    <text x="214" y="288" font-size="9" fill="var(--text)">Day2-4 京都</text>
+                    <line x1="290" y1="283" x2="320" y2="283" stroke="#2980b9" stroke-width="3" stroke-dasharray="6,3" />
+                    <text x="326" y="288" font-size="9" fill="var(--text)">Day5 移动</text>
+                    <line x1="402" y1="283" x2="432" y2="283" stroke="#27ae60" stroke-width="3" />
+                    <text x="438" y="288" font-size="9" fill="var(--text)">Day6-8 大阪</text>
+                </svg>
             </div>
-            <div style="font-size:12px;color:var(--muted);margin-top:8px;">
-                🔵 蓝色标记：主要城市/景点 · 可拖动缩放查看详细路线
+            <div class="map-legend">
+                <span><span class="dot" style="background:#e74c3c;"></span>10.12 抵达</span>
+                <span><span class="dot" style="background:#e67e22;"></span>10.13-15 京都</span>
+                <span><span class="dot" style="background:#2980b9;"></span>10.16 岚山→大阪</span>
+                <span><span class="dot" style="background:#27ae60;"></span>10.17-19 大阪</span>
             </div>
         </div>
 
-        <!-- ========================================= -->
-        <!-- 已确认信息：机票 / 酒店 -->
-        <!-- ========================================= -->
+        <!-- 已确认信息 -->
         <div class="card">
             <div class="card-title">✈️ 已确认 · 行程信息</div>
             <div class="info-grid">
-
-                <div class="info-item">
-                    <div class="info-icon">✈️</div>
-                    <div class="info-body">
-                        <div class="primary">银川 → 济南</div>
-                        <div class="detail">10.11 (五) 14:30-16:25 · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=银川河东国际机场')">银川河东</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span></div>
-                        <div class="addr">中转住宿：济南机场免费中转酒店（中转通预约）</div>
-                        <span class="tag blue">已出票</span>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">✈️</div>
-                    <div class="info-body">
-                        <div class="primary">济南 → 大阪</div>
-                        <div class="detail">10.12 (六) 11:20-14:55 · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=关西国际机场')">大阪关西 T1</span></div>
-                        <div class="addr">落地后出关，<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=JR关西机场站')">JR关西机场站</span> 办 ICOCA 卡</div>
-                        <span class="tag blue">已出票</span>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">✈️</div>
-                    <div class="info-body">
-                        <div class="primary">大阪 → 济南</div>
-                        <div class="detail">10.20 (日) 16:00-17:55 · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=关西国际机场')">大阪关西</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span></div>
-                        <div class="addr">中转住宿：济南机场免费中转酒店（中转通预约）</div>
-                        <span class="tag blue">已出票</span>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">✈️</div>
-                    <div class="info-body">
-                        <div class="primary">济南 → 银川</div>
-                        <div class="detail">10.21 (一) 07:45-09:50 · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=银川河东国际机场')">银川河东</span></div>
-                        <span class="tag blue">已出票</span>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">🏨</div>
-                    <div class="info-body">
-                        <div class="primary">京都四条河原町彩鸿酒店</div>
-                        <div class="detail">10.12 (六) 入住 · 10.16 (三) 退房 · 4 晚</div>
-                        <div class="price">💰 40,464 JPY（均价 10,116 JPY/晚）</div>
-                        <div class="addr">📍 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都四条河原町彩鸿酒店')">京都市下京区四条通河原町東入</span></div>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">🏨</div>
-                    <div class="info-body">
-                        <div class="primary">大阪心斋桥彩鸿酒店</div>
-                        <div class="detail">10.16 (三) 入住 · 10.20 (日) 退房 · 4 晚</div>
-                        <div class="price">💰 34,870 JPY（均价 8,718 JPY/晚）</div>
-                        <div class="addr">📍 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Travelodge+Osaka+Shinsaibashi')">2 Chome-4-10 Minamisenba, Chuo Ward, Osaka, 542-0081</span></div>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">📱</div>
-                    <div class="info-body">
-                        <div class="primary">电话卡</div>
-                        <div class="detail">两人两张 · 10天每天3GB · 合计 160 人民币（不含通话）</div>
-                        <span class="tag green">待办</span>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">🧳</div>
-                    <div class="info-body">
-                        <div class="primary">Airporter 行李寄送</div>
-                        <div class="detail">10.16 早上 9:00 前 <strong>京都四条河原町彩鸿酒店</strong> 寄送 → <strong>大阪心斋桥彩鸿酒店</strong> 当日达</div>
-                        <div class="addr">🔗 <span class="clickable" onclick="openMap('https://www.klook.cn/zh-CN/activity/27878-luggage-delivery-services-osaka-hotels-kansai-airport/')">Klook 预约 Airporter</span></div>
-                        <span class="tag orange">需预约</span>
-                    </div>
-                </div>
-
+                <div class="info-item"><div class="info-icon">✈️</div><div class="info-body"><div class="primary">银川 → 济南</div><div class="detail">10.11 (五) 14:30-16:25 · 银川河东 → 济南遥墙</div><span class="tag blue">已出票</span></div></div>
+                <div class="info-item"><div class="info-icon">✈️</div><div class="info-body"><div class="primary">济南 → 大阪</div><div class="detail">10.12 (六) 11:20-14:55 · 济南遥墙 → 大阪关西 T1</div><span class="tag blue">已出票</span></div></div>
+                <div class="info-item"><div class="info-icon">✈️</div><div class="info-body"><div class="primary">大阪 → 济南</div><div class="detail">10.20 (日) 16:00-17:55 · 大阪关西 → 济南遥墙</div><span class="tag blue">已出票</span></div></div>
+                <div class="info-item"><div class="info-icon">✈️</div><div class="info-body"><div class="primary">济南 → 银川</div><div class="detail">10.21 (一) 07:45-09:50 · 济南遥墙 → 银川河东</div><span class="tag blue">已出票</span></div></div>
+                <div class="info-item"><div class="info-icon">🏨</div><div class="info-body"><div class="primary">京都四条河原町彩鸿酒店</div><div class="detail">10.12 入住 · 10.16 退房 · 4 晚</div><div class="price">💰 40,464 JPY（均价 10,116 JPY/晚）</div><div class="addr">📍 京都市下京区四条通河原町東入</div></div></div>
+                <div class="info-item"><div class="info-icon">🏨</div><div class="info-body"><div class="primary">大阪心斋桥彩鸿酒店</div><div class="detail">10.16 入住 · 10.20 退房 · 4 晚</div><div class="price">💰 34,870 JPY（均价 8,718 JPY/晚）</div><div class="addr">📍 2 Chome-4-10 Minamisenba, Chuo Ward, Osaka, 542-0081</div></div></div>
+                <div class="info-item"><div class="info-icon">📱</div><div class="info-body"><div class="primary">电话卡</div><div class="detail">两人两张 · 10天每天3GB · 合计 160 人民币（不含通话）</div><span class="tag green">待办</span></div></div>
+                <div class="info-item"><div class="info-icon">🧳</div><div class="info-body"><div class="primary">Airporter 行李寄送</div><div class="detail">10.16 早上 9:00 前 <strong>京都四条河原町彩鸿酒店</strong> 寄送 → <strong>大阪心斋桥彩鸿酒店</strong> 当日达</div><span class="tag orange">需预约</span></div></div>
             </div>
         </div>
 
-        <!-- ========================================= -->
         <!-- 逐日行程 -->
-        <!-- ========================================= -->
         <div class="card">
             <div class="card-title">📅 逐日行程 <span class="badge">8 天</span></div>
 
-            <!-- Day 0 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.11 周五</span> <span class="day-sub">Day 0 · 出发</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=银川河东国际机场')">银川河东机场</span> 14:30 起飞</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙机场</span> 16:25 抵达</div>
-                    <div class="route-step"><span class="step-num">③</span> 中转通预约免费住宿 + 餐食</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.11 周五</span> <span class="day-sub">Day 0 · 出发</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">14:30</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=银川河东国际机场')">银川河东</span> ✈️ <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> <span class="note">16:25 抵达</span></div></div>
+                    <div class="day-item"><span class="time">14:30</span><div class="content">银川河东 ✈️ 济南遥墙 <span class="note">16:25 抵达</span></div></div>
                     <div class="day-item"><span class="time">晚间</span><div class="content">中转通小程序预约免费住宿 &amp; 餐食 <span class="reserve-tag">需操作</span></div></div>
-                    <div class="day-item"><span class="time">备注</span><div class="content">便利店买水/早饭，为次日准备</div></div>
                 </div>
             </div>
 
-            <!-- Day 1 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.12 周六</span> <span class="day-sub">Day 1 · 抵达京都</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> 11:20 起飞</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=关西国际机场')">大阪关西 T1</span> 14:55 抵达 · 出关</div>
-                    <div class="route-step"><span class="step-num">③</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=JR关西机场站')">JR关西机场站</span> 办 ICOCA 卡</div>
-                    <div class="route-step"><span class="step-num">④</span> Haruka 特急 → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都站')">京都站</span></div>
-                    <div class="route-step"><span class="step-num">⑤</span> 地铁/打车 → 酒店入住</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.12 周六</span> <span class="day-sub">Day 1 · 抵达京都</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">11:20</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> ✈️ <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=关西国际机场')">大阪关西 T1</span> <span class="note">14:55 抵达</span></div></div>
-                    <div class="day-item"><span class="time">15:30</span><div class="content">出关，<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=JR关西机场站')">JR关西机场站</span> 办理 <strong>ICOCA 卡</strong> <span class="reserve-tag">现场办</span></div></div>
-                    <div class="day-item"><span class="time">16:00</span><div class="content">Haruka 特急前往 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都站')">京都站</span> <span class="note">已购电子票</span></div></div>
-                    <div class="day-item"><span class="time">17:30</span><div class="content">抵达酒店，入住 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都四条河原町彩鸿酒店')">京都四条河原町彩鸿酒店</span></div></div>
-                    <div class="day-item"><span class="time">晚间</span><div class="content">晚餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=惠亭炸猪排+京都')">惠亭炸猪排</span> · 祇园 GOZU 布丁（<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=八坂神社')">八坂神社</span>对面）<span class="note">原味/黑芝麻</span></div></div>
-                    <div class="day-item"><span class="time">夜景</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=鸭川')">鸭川</span>漫步 · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=四条河原町')">四条河原町</span>商圈 <span class="note">商场 20:00 关门</span></div></div>
+                    <div class="day-item"><span class="time">15:30</span><div class="content">出关，JR关西机场站办理 <strong>ICOCA 卡</strong> <span class="reserve-tag">现场办</span></div></div>
+                    <div class="day-item"><span class="time">16:00</span><div class="content">Haruka 特急前往京都站</div></div>
+                    <div class="day-item"><span class="time">17:30</span><div class="content">抵达酒店，入住 <strong>京都四条河原町彩鸿酒店</strong></div></div>
+                    <div class="day-item"><span class="time">晚间</span><div class="content">晚餐：惠亭炸猪排 · 祇园 GOZU 布丁</div></div>
                 </div>
             </div>
 
-            <!-- Day 2 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.13 周日</span> <span class="day-sub">Day 2 · 京都经典</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> 酒店 → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=祇园四条站')">祇园四条站</span>（京阪本线）</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=伏见稻荷站')">伏见稻荷站</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=伏见稻荷大社')">伏见稻荷大社</span></div>
-                    <div class="route-step"><span class="step-num">③</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=清水寺')">清水寺</span> · 三年坂 · 二年坂 · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=八坂神社')">八坂神社</span></div>
-                    <div class="route-step"><span class="step-num">④</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=祇园')">祇园</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=花见小路')">花见小路</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=鸭川')">鸭川</span> → 酒店</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.13 周日</span> <span class="day-sub">Day 2 · 京都经典</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">08:30</span><div class="content">出发，便利店买饭团/水</div></div>
-                    <div class="day-item"><span class="time">09:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=伏见稻荷大社')">伏见稻荷大社</span> 游览 1h <span class="note">千本鸟居走到半山即可</span></div></div>
-                    <div class="day-item"><span class="time">10:30</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=清水寺')">清水寺</span> · 喝抹茶拿铁 @ <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=GOKAGO+京都')"><strong>GOKAGO</strong></span> &amp; 抹茶冰激凌 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=八十八良叶+京都')"><strong>八十八良叶</strong></span></div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=土雷门鳗鱼+京都')">土雷门鳗鱼</span></div></div>
-                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=三年坂')">三年坂</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=二年坂')">二年坂</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=八坂神社')">八坂神社</span></div></div>
-                    <div class="day-item"><span class="time">16:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=祇园')">祇园</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=花见小路')">花见小路</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=鸭川')">鸭川</span> 散步</div></div>
-                    <div class="day-item"><span class="time">18:00</span><div class="content">晚餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都高岛屋+7F+惠亭炸猪排')">京都高岛屋 7F 惠亭炸猪排</span></div></div>
+                    <div class="day-item"><span class="time">09:00</span><div class="content">伏见稻荷大社 游览 1h</div></div>
+                    <div class="day-item"><span class="time">10:30</span><div class="content">清水寺 · 喝抹茶拿铁 @ <strong>GOKAGO</strong> &amp; 抹茶冰激凌 <strong>八十八良叶</strong></div></div>
+                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：土雷门鳗鱼</div></div>
+                    <div class="day-item"><span class="time">14:00</span><div class="content">三年坂 · 二年坂 · 八坂神社</div></div>
+                    <div class="day-item"><span class="time">16:00</span><div class="content">祇园 · 花见小路 · 鸭川 散步</div></div>
+                    <div class="day-item"><span class="time">18:00</span><div class="content">晚餐：京都高岛屋 7F 惠亭炸猪排</div></div>
                 </div>
             </div>
 
-            <!-- Day 3 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.14 周一</span> <span class="day-sub">Day 3 · 宇治</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=祇园四条站')">祇园四条站</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=宇治')">宇治</span>（京阪本线）</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=平等院')">平等院</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=宇治川')">宇治川</span></div>
-                    <div class="route-step"><span class="step-num">③</span> 抹茶体验 · 逛吃</div>
-                    <div class="route-step"><span class="step-num">④</span> 傍晚返回京都</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.14 周一</span> <span class="day-sub">Day 3 · 宇治</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">08:30</span><div class="content">出发，<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=祇园四条站')">祇园四条站</span> 乘京阪本线前往 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=宇治')">宇治</span></div></div>
-                    <div class="day-item"><span class="time">09:30</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=平等院')">平等院</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=宇治川')">宇治川</span>边散步</div></div>
-                    <div class="day-item"><span class="time">11:30</span><div class="content">抹茶泡芙 · 抹茶冰激凌 <span class="note">坐在宇治川边吃</span></div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Suwan+蛋包饭+宇治')">Suwan 蛋包饭</span> / <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=伊藤+宇治')">伊藤</span> / walk-in</div></div>
+                    <div class="day-item"><span class="time">09:30</span><div class="content">平等院 · 宇治川边散步</div></div>
+                    <div class="day-item"><span class="time">11:30</span><div class="content">抹茶泡芙 · 抹茶冰激凌</div></div>
+                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：Suwan 蛋包饭 / 伊藤</div></div>
                     <div class="day-item"><span class="time">14:00</span><div class="content">宇治神社 · 逛街 · 抹茶伴手礼</div></div>
-                    <div class="day-item"><span class="time">17:00</span><div class="content">返回京都，晚餐自由安排</div></div>
                 </div>
             </div>
 
-            <!-- Day 4: 京都逛街 + 商场小地图 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.15 周二</span> <span class="day-sub">Day 4 · 京都逛街</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> 早餐 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Amazon+Cafe+京都')">Amazon Cafe</span>（炸虾三明治）</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都高岛屋')">高岛屋</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都BAL')">BAL</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=新京极商店街')">新京极</span> · OPA</div>
-                    <div class="route-step"><span class="step-num">③</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=藤井大丸')">藤井大丸</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大丸京都店')">大丸</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=唐吉诃德+京都')">唐吉诃德</span></div>
-                    <div class="route-step"><span class="step-num">④</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=SOU.SOU+京都')">SOU·SOU</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=新风馆+京都')">新风馆</span></div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.15 周二</span> <span class="day-sub">Day 4 · 京都逛街</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">08:30</span><div class="content">早餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Amazon+Cafe+京都')">Amazon Cafe</span> 炸虾三明治 · 鸡蛋三明治</div></div>
-                    <div class="day-item"><span class="time">10:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都高岛屋')">高岛屋</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都BAL')">BAL</span> (MUJI旗舰店) · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=新京极商店街')">新京极</span></div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=京都胜牛')">胜牛</span> / 自行安排</div></div>
-                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=藤井大丸')">藤井大丸</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大丸京都店')">大丸</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=唐吉诃德+京都')">唐吉诃德</span> · <strong>无碍山房芭菲</strong>（高岛屋逛街时吃）</div></div>
-                    <div class="day-item"><span class="time">16:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=SOU.SOU+京都')">SOU·SOU</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=新风馆+京都')">新风馆</span> (BEAMS)</div></div>
-                    <div class="day-item"><span class="time">晚间</span><div class="content">随意晚餐</div></div>
+                    <div class="day-item"><span class="time">08:30</span><div class="content">早餐：Amazon Cafe 炸虾三明治</div></div>
+                    <div class="day-item"><span class="time">10:00</span><div class="content">高岛屋 · BAL (MUJI旗舰店) · 新京极</div></div>
+                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：胜牛 / 自行安排</div></div>
+                    <div class="day-item"><span class="time">14:00</span><div class="content">藤井大丸 · 大丸 · 唐吉诃德 · <strong>无碍山房芭菲</strong></div></div>
+                    <div class="day-item"><span class="time">16:00</span><div class="content">SOU·SOU · 新风馆 (BEAMS)</div></div>
                 </div>
-                <!-- 京都商场小地图 -->
-                <div class="map-container map-container-sm" style="margin-top:10px;">
-                    <div class="map-overlay">🛍️ 京都商场分布</div>
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d52328.03!2d135.766!3d35.003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x6001099e3e2c5b5b%3A0x1!2z5Lqs6YO95Yik5p2x5aSn56S%2B!3m2!1d35.0036!2d135.7681!4m5!1s0x6001099e3e2c5b5b%3A0x2!2z5Lqs6YO95biC5Y%2Bz5Lqs5Yy65Yik5p2x5aSn56S%2B6auY5bO25bGL!3m2!1d35.0036!2d135.7681!4m5!1s0x6001099e3e2c5b5b%3A0x3!2z5Lqs6YO95Yik5p2x5aSn5Li4!3m2!1d35.0036!2d135.7681!4m5!1s0x6001099e3e2c5b5b%3A0x4!2z5paw5Lqs5p6B5ZWG5bqX6KGX!3m2!1d35.0036!2d135.7681!5e0!3m2!1szh-CN!2sjp!4v1" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+
+                <!-- 京都商场手绘地图 -->
+                <div style="margin-top:12px;">
+                    <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;">🗺️ 京都四条河原町 · 手绘地图</div>
+                    <div class="handmap-wrap" id="handmap-wrap-kyoto">
+                        <div class="handmap-controls">
+                            <button onclick="hmZoom('kyoto', 1.3)">＋</button>
+                            <button onclick="hmZoom('kyoto', 0.77)">−</button>
+                            <button onclick="hmReset('kyoto')" style="font-size:14px;">⟲</button>
+                        </div>
+                        <div class="handmap-hint">🖐 拖动平移 · 双指/滚轮缩放</div>
+                        <svg id="handmap-kyoto" viewBox="0 0 600 500" preserveAspectRatio="xMidYMid meet">
+                            <rect class="hm-bg" x="0" y="0" width="600" height="500"/>
+
+                            <!-- 鸭川 -->
+                            <path class="hm-river" d="M 530,0 Q 525,120 535,250 Q 540,380 530,500 L 590,500 Q 600,380 595,250 Q 590,120 595,0 Z"/>
+                            <text class="hm-label-sm" x="558" y="250" font-size="11" fill="#6a98b8" font-weight="600" transform="rotate(90 558 250)">鴨川</text>
+
+                            <!-- 小路（先画，在主路下方） -->
+                            <line class="hm-road-small" x1="0" y1="80" x2="600" y2="80" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="0" y1="180" x2="600" y2="180" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="0" y1="320" x2="600" y2="320" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="0" y1="420" x2="600" y2="420" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="80" y1="0" x2="80" y2="500" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="200" y1="0" x2="200" y2="500" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="290" y1="0" x2="290" y2="500" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="450" y1="0" x2="450" y2="500" stroke-width="4" stroke-linecap="round"/>
+
+                            <!-- 次要道路 -->
+                            <line class="hm-road-sub" x1="0" y1="140" x2="600" y2="140" stroke-width="7" stroke-linecap="round"/>
+                            <line class="hm-road-sub" x1="0" y1="370" x2="600" y2="370" stroke-width="7" stroke-linecap="round"/>
+                            <line class="hm-road-sub" x1="140" y1="0" x2="140" y2="500" stroke-width="7" stroke-linecap="round"/>
+                            <line class="hm-road-sub" x1="380" y1="0" x2="380" y2="500" stroke-width="7" stroke-linecap="round"/>
+
+                            <!-- 主要道路 -->
+                            <line class="hm-road-main" x1="0" y1="250" x2="600" y2="250" stroke-width="20" stroke-linecap="round"/>
+                            <line class="hm-road-main" x1="320" y1="0" x2="320" y2="500" stroke-width="20" stroke-linecap="round"/>
+                            <line class="hm-road-main" x1="100" y1="0" x2="100" y2="500" stroke-width="16" stroke-linecap="round"/>
+
+                            <!-- 道路标签 -->
+                            <text class="hm-label-sm" x="480" y="242" font-size="11" font-weight="600">四条通</text>
+                            <text class="hm-label-sm" x="328" y="470" font-size="11" font-weight="600" transform="rotate(90 328 470)">河原町通</text>
+                            <text class="hm-label-sm" x="108" y="470" font-size="11" font-weight="600" transform="rotate(90 108 470)">烏丸通</text>
+                            <text class="hm-label-sm" x="148" y="470" font-size="9" transform="rotate(90 148 470)">御幸町</text>
+                            <text class="hm-label-sm" x="388" y="470" font-size="9" transform="rotate(90 388 470)">麩屋町</text>
+                            <text class="hm-label-sm" x="10" y="134" font-size="9">高辻通</text>
+                            <text class="hm-label-sm" x="10" y="364" font-size="9">松原通</text>
+                            <text class="hm-label-sm" x="10" y="74" font-size="9">綾小路通</text>
+                            <text class="hm-label-sm" x="10" y="314" font-size="9">仏光寺通</text>
+
+                            <!-- 高岛屋 -->
+                            <rect class="hm-building-dept" x="215" y="185" width="95" height="55" rx="4"/>
+                            <text class="hm-label" x="262" y="210" font-size="11" font-weight="700" text-anchor="middle">高島屋</text>
+                            <text class="hm-label-sm" x="262" y="226" font-size="9" text-anchor="middle">Takashimaya</text>
+
+                            <!-- BAL -->
+                            <rect class="hm-building-shop" x="225" y="90" width="85" height="45" rx="4"/>
+                            <text class="hm-label" x="267" y="110" font-size="10" font-weight="700" text-anchor="middle">京都 BAL</text>
+                            <text class="hm-label-sm" x="267" y="126" font-size="9" text-anchor="middle">MUJI 旗舰店</text>
+
+                            <!-- OPA -->
+                            <rect class="hm-building-shop" x="390" y="180" width="80" height="50" rx="4"/>
+                            <text class="hm-label" x="430" y="203" font-size="10" font-weight="700" text-anchor="middle">河原町</text>
+                            <text class="hm-label" x="430" y="218" font-size="10" font-weight="700" text-anchor="middle">OPA</text>
+
+                            <!-- 新京极 -->
+                            <rect class="hm-building-shop" x="205" y="255" width="40" height="110" rx="4" opacity="0.85"/>
+                            <text class="hm-label-sm" x="225" y="310" font-size="9" font-weight="600" text-anchor="middle" transform="rotate(-90 225 310)">新京極</text>
+
+                            <!-- 藤井大丸 -->
+                            <rect class="hm-building-shop" x="215" y="380" width="95" height="45" rx="4"/>
+                            <text class="hm-label" x="262" y="400" font-size="11" font-weight="700" text-anchor="middle">藤井大丸</text>
+                            <text class="hm-label-sm" x="262" y="416" font-size="9" text-anchor="middle">Fujii Daimaru</text>
+
+                            <!-- 唐吉诃德 -->
+                            <rect class="hm-building-shop" x="215" y="290" width="85" height="45" rx="4"/>
+                            <text class="hm-label" x="257" y="310" font-size="10" font-weight="700" text-anchor="middle">唐吉訶德</text>
+                            <text class="hm-label-sm" x="257" y="326" font-size="9" text-anchor="middle">Don Quijote</text>
+
+                            <!-- 大丸 -->
+                            <rect class="hm-building-dept" x="110" y="185" width="85" height="50" rx="4"/>
+                            <text class="hm-label" x="152" y="208" font-size="10" font-weight="700" text-anchor="middle">大丸</text>
+                            <text class="hm-label-sm" x="152" y="224" font-size="9" text-anchor="middle">京都店</text>
+
+                            <!-- ★ 彩鸿酒店（东南角，四条通南侧） -->
+                            <rect class="hm-building-hotel" x="390" y="275" width="100" height="55" rx="4"/>
+                            <text class="hm-label" x="440" y="298" font-size="11" font-weight="700" text-anchor="middle" fill="#c0392b">★ 彩鴻酒店</text>
+                            <text class="hm-label-sm" x="440" y="315" font-size="9" text-anchor="middle">京都四条河原町</text>
+
+                            <!-- 交通站点：阪急河原町站 -->
+                            <rect class="hm-building-station" x="200" y="455" width="95" height="32" rx="4"/>
+                            <text class="hm-label-sm" x="247" y="475" font-size="10" font-weight="700" text-anchor="middle">阪急河原町駅</text>
+                            <circle class="hm-station-icon" cx="215" cy="471" r="5"/>
+                            <text class="hm-label-sm" x="215" y="474" font-size="6" fill="#fff" font-weight="700" text-anchor="middle">H</text>
+
+                            <!-- 交通站点：京阪祇园四条站 -->
+                            <rect class="hm-building-station" x="405" y="455" width="95" height="32" rx="4"/>
+                            <text class="hm-label-sm" x="452" y="475" font-size="10" font-weight="700" text-anchor="middle">祇園四条駅</text>
+                            <circle class="hm-station-icon" cx="420" cy="471" r="5"/>
+                            <text class="hm-label-sm" x="420" y="474" font-size="6" fill="#fff" font-weight="700" text-anchor="middle">K</text>
+
+                            <!-- 交通站点：地下鉄烏丸線四条站 -->
+                            <rect class="hm-building-station" x="30" y="130" width="90" height="32" rx="4"/>
+                            <text class="hm-label-sm" x="75" y="150" font-size="10" font-weight="700" text-anchor="middle">四条駅</text>
+                            <circle class="hm-station-icon" cx="45" cy="146" r="5"/>
+                            <text class="hm-label-sm" x="45" y="149" font-size="6" fill="#fff" font-weight="700" text-anchor="middle">M</text>
+                        </svg>
+                    </div>
                 </div>
             </div>
 
-            <!-- Day 5 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.16 周三</span> <span class="day-sub">Day 5 · 岚山 → 大阪</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> 酒店退房，行李交 Airporter 寄送</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=阪急河原町站')">阪急河原町站</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=桂站')">桂站</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=岚山站+阪急')">岚山站</span>（阪急）</div>
-                    <div class="route-step"><span class="step-num">③</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=渡月桥')">渡月桥</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=天龙寺')">天龙寺</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=竹林小径+岚山')">竹林小径</span></div>
-                    <div class="route-step"><span class="step-num">④</span> 岚山小火车（可选）</div>
-                    <div class="route-step"><span class="step-num">⑤</span> 傍晚前往大阪 · 心斋桥酒店</div>
-                    <div class="route-step"><span class="step-num">⑥</span> 20:00 焼肉（待预约）</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.16 周三</span> <span class="day-sub">Day 5 · 岚山 → 大阪</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">08:30</span><div class="content">退房，行李寄送 <strong>Airporter</strong>（9:00前） <span class="reserve-tag wait">Klook 预约</span></div></div>
-                    <div class="day-item"><span class="time">09:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=阪急河原町站')">阪急河原町站</span> → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=桂站')">桂站</span> 换乘 → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=岚山站+阪急')">岚山站</span>（阪急）<span class="note">阪急京都线 → 阪急岚山线</span></div></div>
-                    <div class="day-item"><span class="time">10:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=渡月桥')">渡月桥</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=天龙寺')">天龙寺</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=竹林小径+岚山')">竹林小径</span></div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=岚山よしむら')">岚山よしむら荞麦面</span> / <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Tsure-zure+岚山')">豆腐宴</span> / <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=岚山喜重郎')">岚山喜重郎</span></div></div>
-                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=常寂光寺')">常寂光寺</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=二尊院')">二尊院</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=祇王寺')">祇王寺</span> · 小火车（可选）</div></div>
-                    <div class="day-item"><span class="time">17:00</span><div class="content">移动至大阪，入住 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Travelodge+Osaka+Shinsaibashi')">大阪心斋桥彩鸿酒店</span></div></div>
-                    <div class="day-item"><span class="time">20:00</span><div class="content">晚餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=ライブ焼肉+てんぐ+千日前')">ライブ焼肉 てんぐ 千日前店</span> <span class="reserve-tag wait">待预约</span></div></div>
+                    <div class="day-item"><span class="time">08:30</span><div class="content">退房，行李寄送 Airporter（9:00前） <span class="reserve-tag">Klook 预约</span></div></div>
+                    <div class="day-item"><span class="time">09:00</span><div class="content">阪急京都线 → 桂 → 岚山</div></div>
+                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：岚山よしむら / 豆腐宴 / 岚山喜重郎</div></div>
+                    <div class="day-item"><span class="time">17:00</span><div class="content">移动至大阪，入住 <strong>大阪心斋桥彩鸿酒店</strong></div></div>
+                    <div class="day-item"><span class="time">20:00</span><div class="content">晚餐：ライブ焼肉 てんぐ 千日前店 <span class="reserve-tag">待预约</span></div></div>
                 </div>
             </div>
 
-            <!-- Day 6 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.17 周四</span> <span class="day-sub">Day 6 · 梅田</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> 酒店 → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=心斋桥站')">心斋桥站</span>（地铁）</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=梅田站')">梅田站</span> 下车</div>
-                    <div class="route-step"><span class="step-num">③</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=LUCUA+大阪')">LUCUA</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=LUCUA+1100')">LUCUA 1100</span></div>
-                    <div class="route-step"><span class="step-num">④</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Grand+Front+Osaka')">Grand Front Osaka</span> (MUJI)</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.17 周四</span> <span class="day-sub">Day 6 · 梅田</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">09:30</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=心斋桥站')">心斋桥站</span> 乘地铁前往 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=梅田站')">梅田站</span></div></div>
-                    <div class="day-item"><span class="time">10:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=LUCUA+大阪')">LUCUA</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=LUCUA+1100')">LUCUA 1100</span> 服装·美妆</div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：<span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Tempura+Makino+Umeda')">Tempura Makino Umeda</span>（阪急三番街）</div></div>
-                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Grand+Front+Osaka')">Grand Front Osaka</span> (MUJI) · KITTEN 土特产</div></div>
-                    <div class="day-item"><span class="time">16:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=阪急百货梅田本店+B1')">阪急 B1</span> 美食区 · 草莓冰激凌 (Okkoppe Milk Stand)</div></div>
-                    <div class="day-item"><span class="time">晚间</span><div class="content">梅田夜景 · 随意晚餐</div></div>
+                    <div class="day-item"><span class="time">10:00</span><div class="content">LUCUA · LUCUA 1100 服装·美妆</div></div>
+                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：Tempura Makino Umeda</div></div>
+                    <div class="day-item"><span class="time">14:00</span><div class="content">Grand Front Osaka (MUJI) · KITTEN</div></div>
+                    <div class="day-item"><span class="time">16:00</span><div class="content">阪急 B1 美食区 · 草莓冰激凌</div></div>
                 </div>
             </div>
 
-            <!-- Day 7: 心斋桥 + 商场小地图 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.18 周五</span> <span class="day-sub">Day 7 · 心斋桥</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=心斋桥站')">心斋桥站</span> 步行</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=心斋桥')">心斋桥</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=道顿堀')">道顿堀</span></div>
-                    <div class="route-step"><span class="step-num">③</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=PARCO+心斋桥')">PARCO</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大丸心斋桥')">大丸</span></div>
-                    <div class="route-step"><span class="step-num">④</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Mie+Royal+Pearl+心斋桥')">Mie Royal Pearl</span> 珍珠</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.18 周五</span> <span class="day-sub">Day 7 · 心斋桥</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">10:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=心斋桥站')">心斋桥站</span> 步行至 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=心斋桥')">心斋桥</span> · <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=道顿堀')">道顿堀</span></div></div>
-                    <div class="day-item"><span class="time">11:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=PARCO+心斋桥')">PARCO</span> 4F <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=HARBS+心斋桥')">HARBS</span> 水果千层</div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐：寿司天妇罗 / 随意</div></div>
-                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=大丸心斋桥')">大丸</span> · 药妆店购物</div></div>
-                    <div class="day-item"><span class="time">16:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=Mie+Royal+Pearl+心斋桥')">Mie Royal Pearl</span> 珍珠首饰（生日礼物）</div></div>
-                    <div class="day-item"><span class="time">晚间</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=肉剧场+心斋桥')">肉剧场</span>（22:30 最后点餐）</div></div>
+                    <div class="day-item"><span class="time">10:00</span><div class="content">心斋桥 · 道顿堀</div></div>
+                    <div class="day-item"><span class="time">11:00</span><div class="content">PARCO 4F HARBS 水果千层</div></div>
+                    <div class="day-item"><span class="time">14:00</span><div class="content">大丸 · 药妆店购物</div></div>
+                    <div class="day-item"><span class="time">16:00</span><div class="content">Mie Royal Pearl 珍珠首饰</div></div>
+                    <div class="day-item"><span class="time">晚间</span><div class="content">肉剧场（22:30 最后点餐）</div></div>
                 </div>
-                <!-- 心斋桥商场小地图 -->
-                <div class="map-container map-container-sm" style="margin-top:10px;">
-                    <div class="map-overlay">🛍️ 心斋桥商场分布</div>
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d26300.0!2d135.500!3d34.672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x6000e6a2b5b5b5b5%3A0x1!2z5aSn6Ziq5bqc5aSn6Ziq5biC5Lit5aSu5Yy65b%2BD5paO5qmL6KGX!3m2!1d34.6723!2d135.5009!4m5!1s0x6000e6a2b5b5b5b5%3A0x2!2z5aSn5Li45b%2BD5paO5qmL!3m2!1d34.673!2d135.501!4m5!1s0x6000e6a2b5b5b5b5%3A0x3!2eUEFSQ08g5b%2BD5paO5qmL!3m2!1d34.671!2d135.499!4m5!1s0x6000e6a2b5b5b5b5%3A0x4!2z6YGT6aCT5aCk!3m2!1d34.669!2d135.501!5e0!3m2!1szh-CN!2sjp!4v1" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+
+                <!-- 心斋桥手绘地图 -->
+                <div style="margin-top:12px;">
+                    <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;">🗺️ 心斋桥 · 手绘地图</div>
+                    <div class="handmap-wrap" id="handmap-wrap-osaka">
+                        <div class="handmap-controls">
+                            <button onclick="hmZoom('osaka', 1.3)">＋</button>
+                            <button onclick="hmZoom('osaka', 0.77)">−</button>
+                            <button onclick="hmReset('osaka')" style="font-size:14px;">⟲</button>
+                        </div>
+                        <div class="handmap-hint">🖐 拖动平移 · 双指/滚轮缩放</div>
+                        <svg id="handmap-osaka" viewBox="0 0 600 550" preserveAspectRatio="xMidYMid meet">
+                            <rect class="hm-bg" x="0" y="0" width="600" height="550"/>
+
+                            <!-- 道顿堀川 -->
+                            <path class="hm-river" d="M 0,480 Q 150,472 300,480 Q 450,488 600,480 L 600,530 Q 450,538 300,530 Q 150,522 0,530 Z"/>
+                            <text class="hm-label-sm" x="200" y="510" font-size="11" fill="#6a98b8" font-weight="600">道頓堀川</text>
+
+                            <!-- 小路 -->
+                            <line class="hm-road-small" x1="0" y1="60" x2="600" y2="60" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="0" y1="200" x2="600" y2="200" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="0" y1="300" x2="600" y2="300" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="0" y1="400" x2="600" y2="400" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="100" y1="0" x2="100" y2="480" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="260" y1="0" x2="260" y2="480" stroke-width="4" stroke-linecap="round"/>
+                            <line class="hm-road-small" x1="500" y1="0" x2="500" y2="480" stroke-width="4" stroke-linecap="round"/>
+
+                            <!-- 次要道路 -->
+                            <line class="hm-road-sub" x1="0" y1="130" x2="600" y2="130" stroke-width="8" stroke-linecap="round"/>
+                            <line class="hm-road-sub" x1="0" y1="250" x2="600" y2="250" stroke-width="6" stroke-linecap="round"/>
+                            <line class="hm-road-sub" x1="0" y1="350" x2="600" y2="350" stroke-width="6" stroke-linecap="round"/>
+                            <line class="hm-road-sub" x1="430" y1="0" x2="430" y2="480" stroke-width="8" stroke-linecap="round"/>
+
+                            <!-- 主要道路 -->
+                            <line class="hm-road-main" x1="180" y1="0" x2="180" y2="480" stroke-width="20" stroke-linecap="round"/>
+                            <line class="hm-road-main" x1="340" y1="0" x2="340" y2="480" stroke-width="18" stroke-linecap="round"/>
+
+                            <!-- 道路标签 -->
+                            <text class="hm-label-sm" x="188" y="460" font-size="11" font-weight="600" transform="rotate(90 188 460)">御堂筋</text>
+                            <text class="hm-label-sm" x="348" y="460" font-size="11" font-weight="600" transform="rotate(90 348 460)">心斎橋筋</text>
+                            <text class="hm-label-sm" x="10" y="124" font-size="11" font-weight="600">長堀通</text>
+                            <text class="hm-label-sm" x="10" y="244" font-size="9">千日前通</text>
+                            <text class="hm-label-sm" x="10" y="344" font-size="9">宗右衛門町通</text>
+                            <text class="hm-label-sm" x="438" y="460" font-size="9" transform="rotate(90 438 460)">戎橋筋</text>
+
+                            <!-- 大丸 -->
+                            <rect class="hm-building-dept" x="195" y="150" width="85" height="50" rx="4"/>
+                            <text class="hm-label" x="237" y="173" font-size="11" font-weight="700" text-anchor="middle">大丸</text>
+                            <text class="hm-label-sm" x="237" y="190" font-size="9" text-anchor="middle">心斎橋店</text>
+
+                            <!-- ★ 彩鸿酒店 -->
+                            <rect class="hm-building-hotel" x="255" y="260" width="95" height="55" rx="4"/>
+                            <text class="hm-label" x="302" y="283" font-size="10" font-weight="700" text-anchor="middle" fill="#c0392b">★ 彩鴻酒店</text>
+                            <text class="hm-label-sm" x="302" y="300" font-size="9" text-anchor="middle">Travelodge</text>
+
+                            <!-- PARCO -->
+                            <rect class="hm-building-shop" x="355" y="150" width="80" height="50" rx="4"/>
+                            <text class="hm-label" x="395" y="173" font-size="11" font-weight="700" text-anchor="middle">PARCO</text>
+                            <text class="hm-label-sm" x="395" y="190" font-size="9" text-anchor="middle">心斎橋</text>
+
+                            <!-- 心斋桥筋商店街 -->
+                            <rect class="hm-building-shop" x="320" y="230" width="35" height="160" rx="4" opacity="0.7"/>
+                            <text class="hm-label-sm" x="337" y="330" font-size="10" font-weight="600" text-anchor="middle" transform="rotate(-90 337 330)">心斎橋筋商店街</text>
+
+                            <!-- Mie Royal Pearl -->
+                            <rect class="hm-building-shop" x="355" y="280" width="80" height="45" rx="4"/>
+                            <text class="hm-label" x="395" y="300" font-size="10" font-weight="700" text-anchor="middle">Mie Royal</text>
+                            <text class="hm-label-sm" x="395" y="315" font-size="9" text-anchor="middle">Pearl</text>
+
+                            <!-- 道顿堀 -->
+                            <rect class="hm-building-shop" x="355" y="410" width="90" height="50" rx="4"/>
+                            <text class="hm-label" x="400" y="433" font-size="11" font-weight="700" text-anchor="middle">道頓堀</text>
+                            <text class="hm-label-sm" x="400" y="450" font-size="9" text-anchor="middle">Dotonbori</text>
+
+                            <!-- 美国村 -->
+                            <rect class="hm-building-shop" x="55" y="230" width="90" height="55" rx="4" opacity="0.8"/>
+                            <text class="hm-label-sm" x="100" y="255" font-size="10" font-weight="600" text-anchor="middle">アメリカ村</text>
+                            <text class="hm-label-sm" x="100" y="272" font-size="9" text-anchor="middle">美国村</text>
+
+                            <!-- 交通站点：心斋桥站 -->
+                            <rect class="hm-building-station" x="195" y="70" width="95" height="32" rx="4"/>
+                            <text class="hm-label-sm" x="242" y="90" font-size="10" font-weight="700" text-anchor="middle">心斎橋駅</text>
+                            <circle class="hm-station-icon" cx="210" cy="86" r="5"/>
+                            <text class="hm-label-sm" x="210" y="89" font-size="6" fill="#fff" font-weight="700" text-anchor="middle">M</text>
+
+                            <!-- 交通站点：难波站 -->
+                            <rect class="hm-building-station" x="355" y="70" width="95" height="32" rx="4"/>
+                            <text class="hm-label-sm" x="402" y="90" font-size="10" font-weight="700" text-anchor="middle">難波駅</text>
+                            <circle class="hm-station-icon" cx="370" cy="86" r="5"/>
+                            <text class="hm-label-sm" x="370" y="89" font-size="6" fill="#fff" font-weight="700" text-anchor="middle">M</text>
+
+                            <!-- 交通站点：四桥站 -->
+                            <rect class="hm-building-station" x="30" y="70" width="90" height="32" rx="4"/>
+                            <text class="hm-label-sm" x="75" y="90" font-size="10" font-weight="700" text-anchor="middle">四ツ橋駅</text>
+                            <circle class="hm-station-icon" cx="45" cy="86" r="5"/>
+                            <text class="hm-label-sm" x="45" y="89" font-size="6" fill="#fff" font-weight="700" text-anchor="middle">M</text>
+                        </svg>
+                    </div>
                 </div>
             </div>
 
-            <!-- Day 8 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.19 周六</span> <span class="day-sub">Day 8 · 天桥立</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> 大阪集合点出发（Klook/携程团）</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=天桥立展望台')">天桥立展望台</span> · 沙洲</div>
-                    <div class="route-step"><span class="step-num">③</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=伊根舟屋')">伊根舟屋</span>（视团行程）</div>
-                    <div class="route-step"><span class="step-num">④</span> 傍晚返回大阪</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.19 周六</span> <span class="day-sub">Day 8 · 天桥立</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">08:00</span><div class="content">集合出发 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=天桥立')">天桥立</span> 一日游（Klook/携程） <span class="reserve-tag">已报团</span></div></div>
-                    <div class="day-item"><span class="time">10:30</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=天桥立展望台')">天桥立展望台</span> · 沙洲散步</div></div>
-                    <div class="day-item"><span class="time">12:30</span><div class="content">午餐（团餐或自理）</div></div>
-                    <div class="day-item"><span class="time">14:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=伊根舟屋')">伊根舟屋</span> / 其他景点（依团行程）</div></div>
+                    <div class="day-item"><span class="time">08:00</span><div class="content">集合出发 天桥立 一日游 <span class="reserve-tag">已报团</span></div></div>
                     <div class="day-item"><span class="time">18:00</span><div class="content">返回大阪，晚餐：<strong>烧肉放题</strong></div></div>
                 </div>
             </div>
 
-            <!-- Day 9 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.20 周日</span> <span class="day-sub">Day 9 · 返程</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> 酒店退房 → <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=关西国际机场')">关西机场</span></div>
-                    <div class="route-step"><span class="step-num">②</span> 16:00 大阪关西 ✈️ 济南</div>
-                    <div class="route-step"><span class="step-num">③</span> 抵达济南，中转通预约住宿</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.20 周日</span> <span class="day-sub">Day 9 · 返程</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">10:00</span><div class="content">退房，前往 <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=关西国际机场')">关西机场</span></div></div>
-                    <div class="day-item"><span class="time">16:00</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=关西国际机场')">大阪关西</span> ✈️ <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> <span class="note">17:55 抵达</span></div></div>
-                    <div class="day-item"><span class="time">晚间</span><div class="content">中转通预约免费住宿 &amp; 餐食 <span class="reserve-tag">需操作</span></div></div>
+                    <div class="day-item"><span class="time">10:00</span><div class="content">退房，前往关西机场</div></div>
+                    <div class="day-item"><span class="time">16:00</span><div class="content">大阪关西 ✈️ 济南遥墙 <span class="note">17:55 抵达</span></div></div>
                 </div>
             </div>
 
-            <!-- Day 10 -->
             <div class="day-block">
-                <div class="day-header" onclick="toggleRoute(this)">
-                    <span><span class="day-label">10.21 周一</span> <span class="day-sub">Day 10 · 回家</span></span>
-                    <button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button>
-                </div>
-                <div class="day-route-map">
-                    <div class="route-step"><span class="step-num">①</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> 07:45 起飞</div>
-                    <div class="route-step"><span class="step-num">②</span> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=银川河东国际机场')">银川河东</span> 09:50 抵达</div>
-                </div>
+                <div class="day-header" onclick="toggleRoute(this)"><span><span class="day-label">10.21 周一</span> <span class="day-sub">Day 10 · 回家</span></span><button class="day-route-toggle" onclick="event.stopPropagation();toggleRoute(this)">📍 路线</button></div>
                 <div class="day-items">
-                    <div class="day-item"><span class="time">07:45</span><div class="content"><span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=济南遥墙国际机场')">济南遥墙</span> ✈️ <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=银川河东国际机场')">银川河东</span> <span class="note">09:50 抵达</span></div></div>
-                    <div class="day-item"><span class="time">09:50</span><div class="content">抵达银川 · 旅行结束 🎉</div></div>
+                    <div class="day-item"><span class="time">07:45</span><div class="content">济南遥墙 ✈️ 银川河东 <span class="note">09:50 抵达</span></div></div>
                 </div>
             </div>
         </div>
 
-        <!-- ========================================= -->
-        <!-- 待办清单（可勾选） -->
-        <!-- ========================================= -->
+        <!-- 待办清单 -->
         <div class="card">
             <div class="card-title">📋 待办清单 <span class="badge">进行中</span></div>
-            <ul class="list-container" id="todoList">
-                <!-- 由 JS 动态渲染 -->
-            </ul>
-            <div style="font-size:12px;color:var(--muted);margin-top:10px;border-top:1px solid var(--border);padding-top:10px;">
-                💡 勾选状态保存在你自己的浏览器中
-            </div>
+            <ul class="list-container" id="todoList"></ul>
         </div>
 
-        <!-- ========================================= -->
-        <!-- 购物清单（可编辑 + 可勾选 + 二次确认删除） -->
-        <!-- ========================================= -->
+        <!-- 购物清单 -->
         <div class="card">
             <div class="shop-header">
                 <div class="card-title" style="margin-bottom:0;">🛒 购物清单</div>
                 <span class="shop-stats" id="shopStats"></span>
                 <button class="shop-edit-toggle" id="shopEditToggle" onclick="toggleShopEdit()">✏️ 编辑</button>
             </div>
-            <ul class="list-container" id="shopList" style="margin-top:10px;">
-                <!-- 由 JS 动态渲染 -->
-            </ul>
+            <ul class="list-container" id="shopList" style="margin-top:10px;"></ul>
             <div class="shop-input-area">
                 <input type="text" id="shopInput" placeholder="输入想买的东西..." onkeydown="if(event.key==='Enter')addShopItem()">
                 <button class="shop-add-btn" onclick="addShopItem()">添加</button>
             </div>
         </div>
 
-        <!-- ========================================= -->
-        <!-- 实用贴士 + 汇率计算器 -->
-        <!-- ========================================= -->
+        <!-- 实用贴士 + 汇率 -->
         <div class="card">
             <div class="card-title">💡 实用贴士</div>
             <div class="tip-grid">
                 <div class="tip-item">
                     <span class="tip-icon">🚇</span>
-                    <div>
-                        <strong>ICOCA</strong> <span class="clickable" onclick="openMap('https://www.google.com/maps/search/?api=1&query=JR关西机场站')">关西机场 JR 站</span>绿色窗口/自动售票机购买，有中文界面
+                    <div><strong>ICOCA</strong> 关西机场 JR 站绿色窗口/自动售票机购买，有中文界面
                         <div style="margin-top:6px;">
-                            <img class="icoca-thumb" 
-                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/ICOCA_charging_machine.jpg/250px-ICOCA_charging_machine.jpg" 
-                                 alt="ICOCA 自动售票机" 
-                                 onclick="openLightbox(this.src)"
-                                 loading="lazy">
+                            <img class="icoca-thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/ICOCA_charging_machine.jpg/250px-ICOCA_charging_machine.jpg" alt="ICOCA 自动售票机" onclick="openLightbox(this.src)" loading="lazy">
                             <span style="font-size:11px;color:var(--muted);display:block;margin-top:2px;">📸 点击查看大图</span>
                         </div>
                     </div>
                 </div>
-                <div class="tip-item"><span class="tip-icon">📱</span> <span><strong>网络</strong> 淘宝电话卡抵达后激活（两人两张，10天每天3GB，合计160元）</span></div>
+                <div class="tip-item"><span class="tip-icon">📱</span> <span><strong>网络</strong> 淘宝电话卡抵达后激活</span></div>
                 <div class="tip-item"><span class="tip-icon">🧳</span> <span><strong>Airporter</strong> Klook 提前预约，京都→大阪当日达</span></div>
                 <div class="tip-item"><span class="tip-icon">🕐</span> <span><strong>时区</strong> 日本 UTC+9，比北京时间早 1 小时</span></div>
                 <div class="tip-item"><span class="tip-icon">♻️</span> <span><strong>垃圾</strong> 日本垃圾桶少，随身带小垃圾袋</span></div>
-                <div class="tip-item"><span class="tip-icon">🔌</span> <span><strong>插头</strong> 两脚扁插（A型），电压 100V，国内两脚可用</span></div>
-                <div class="tip-item"><span class="tip-icon">📞</span> <span><strong>紧急</strong> 报警 110 · 火警/急救 119（日本通用）</span></div>
+                <div class="tip-item"><span class="tip-icon">🔌</span> <span><strong>插头</strong> 两脚扁插（A型），电压 100V</span></div>
+                <div class="tip-item"><span class="tip-icon">📞</span> <span><strong>紧急</strong> 报警 110 · 火警/急救 119</span></div>
             </div>
 
-            <!-- 汇率计算器（左人民币 右日元） -->
             <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
                     <span style="font-weight:600;font-size:14px;">💴 汇率计算器</span>
@@ -1360,14 +733,14 @@
                 <div class="rate-box" id="rateBox">
                     <div class="rate-input-group">
                         <div class="input-wrap">
-                            <label>人民币 (CNY)</label>
-                            <input type="number" id="cnyInput" placeholder="输入金额" step="any" min="0" oninput="convertFromCNY()">
-                            <div class="currency-label">≈ <span id="cnyToJpyDisplay">--</span> 日元</div>
-                        </div>
-                        <div class="input-wrap">
                             <label>日元 (JPY)</label>
                             <input type="number" id="jpyInput" placeholder="输入金额" step="any" min="0" oninput="convertFromJPY()">
                             <div class="currency-label">≈ <span id="jpyToCnyDisplay">--</span> 人民币</div>
+                        </div>
+                        <div class="input-wrap">
+                            <label>人民币 (CNY)</label>
+                            <input type="number" id="cnyInput" placeholder="输入金额" step="any" min="0" oninput="convertFromCNY()">
+                            <div class="currency-label">≈ <span id="cnyToJpyDisplay">--</span> 日元</div>
                         </div>
                     </div>
                     <div class="quick-amounts">
@@ -1376,34 +749,23 @@
                         <button class="quick-btn" onclick="setQuickAmount(90000, 'jpy')">💳 9万合计</button>
                     </div>
                     <div class="divider"></div>
-                    <div class="row">
-                        <span class="label">💰 现金 (8万日元)</span>
-                        <span class="value" id="cashCny">≈ -- 人民币</span>
-                    </div>
-                    <div class="row">
-                        <span class="label">📱 西瓜卡 (1万日元)</span>
-                        <span class="value" id="suicaCny">≈ -- 人民币</span>
-                    </div>
+                    <div class="row"><span class="label">💰 现金 (8万日元)</span><span class="value" id="cashCny">≈ -- 人民币</span></div>
+                    <div class="row"><span class="label">📱 西瓜卡 (1万日元)</span><span class="value" id="suicaCny">≈ -- 人民币</span></div>
                     <div class="row" style="font-weight:700;border-top:1px solid var(--border);padding-top:8px;margin-top:4px;">
-                        <span class="label">💳 合计 (9万日元)</span>
-                        <span class="value" id="totalCny">≈ -- 人民币</span>
+                        <span class="label">💳 合计 (9万日元)</span><span class="value" id="totalCny">≈ -- 人民币</span>
                     </div>
                     <div class="rate-note" id="rateNote">🔄 加载汇率中...</div>
                 </div>
             </div>
         </div>
 
-        <!-- 底部留白 -->
         <div style="height:20px;"></div>
-
     </div>
 
-    <!-- 主题切换按钮 -->
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
         <span id="themeIcon">🌙</span> <span id="themeLabel">夜间</span>
     </button>
 
-    <!-- 删除确认弹窗 -->
     <div class="modal-overlay" id="deleteModal">
         <div class="modal-box">
             <p id="deleteModalText">确定要删除这一项吗？</p>
@@ -1414,15 +776,12 @@
         </div>
     </div>
 
-    <!-- ICOCA 图片灯箱 -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <img id="lightboxImg" src="" alt="ICOCA 自动售票机">
     </div>
 
     <script>
-        // =============================================
-        // 数据：所有行程事件（用于倒计时）
-        // =============================================
+        // ===== 倒计时 =====
         const EVENTS = [
             { label: '✈️ 银川→大阪', date: '2026-10-11T14:30:00+09:00' },
             { label: '✈️ 济南→大阪', date: '2026-10-12T11:20:00+09:00' },
@@ -1431,98 +790,103 @@
             { label: '✈️ 大阪→济南', date: '2026-10-20T16:00:00+09:00' },
             { label: '✈️ 济南→银川', date: '2026-10-21T07:45:00+09:00' },
         ];
-
         function getNextEvent() {
-            const now = Date.now();
-            let next = null;
-            for (const e of EVENTS) {
-                const t = new Date(e.date).getTime();
-                if (t > now && (!next || t < new Date(next.date).getTime())) next = e;
-            }
+            const now = Date.now(); let next = null;
+            for (const e of EVENTS) { const t = new Date(e.date).getTime(); if (t > now && (!next || t < new Date(next.date).getTime())) next = e; }
             return next;
         }
-
         function updateCountdown() {
-            const now = Date.now();
-            const next = getNextEvent();
+            const now = Date.now(); const next = getNextEvent();
             const eventEl = document.getElementById('nowEvent');
-            const cdDays = document.getElementById('cdDays');
-            const cdHours = document.getElementById('cdHours');
-            const cdMins = document.getElementById('cdMins');
-            const cdSecs = document.getElementById('cdSecs');
-            if (!next) {
-                eventEl.innerHTML = '🎉 旅行已全部完成！';
-                cdDays.textContent = '--'; cdHours.textContent = '--';
-                cdMins.textContent = '--'; cdSecs.textContent = '--';
-                return;
-            }
-            const target = new Date(next.date).getTime();
-            let diff = Math.max(0, target - now);
+            const cdDays = document.getElementById('cdDays'), cdHours = document.getElementById('cdHours');
+            const cdMins = document.getElementById('cdMins'), cdSecs = document.getElementById('cdSecs');
+            if (!next) { eventEl.innerHTML = '🎉 旅行已全部完成！'; cdDays.textContent='--'; cdHours.textContent='--'; cdMins.textContent='--'; cdSecs.textContent='--'; return; }
+            const target = new Date(next.date).getTime(); let diff = Math.max(0, target - now);
             const days = Math.floor(diff / 86400000); diff -= days * 86400000;
             const hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
             const mins = Math.floor(diff / 60000); diff -= mins * 60000;
             const secs = Math.floor(diff / 1000);
             eventEl.innerHTML = `${next.label} <span class="sub">倒计时</span>`;
-            cdDays.textContent = String(days).padStart(2, '0');
-            cdHours.textContent = String(hours).padStart(2, '0');
-            cdMins.textContent = String(mins).padStart(2, '0');
-            cdSecs.textContent = String(secs).padStart(2, '0');
+            cdDays.textContent = String(days).padStart(2,'0'); cdHours.textContent = String(hours).padStart(2,'0');
+            cdMins.textContent = String(mins).padStart(2,'0'); cdSecs.textContent = String(secs).padStart(2,'0');
         }
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
+        updateCountdown(); setInterval(updateCountdown, 1000);
 
-        // =============================================
-        // 每日路线折叠展开
-        // =============================================
+        // ===== 路线折叠 =====
         function toggleRoute(el) {
             let block = el.closest ? el.closest('.day-block') : el.parentElement.closest('.day-block');
-            if (!block) {
-                const header = el.closest ? el.closest('.day-header') : el.parentElement;
-                if (header) block = header.closest('.day-block');
-            }
+            if (!block) { const h = el.closest ? el.closest('.day-header') : el.parentElement; if (h) block = h.closest('.day-block'); }
             if (!block) return;
-            const map = block.querySelector('.day-route-map');
-            if (map) map.classList.toggle('open');
+            const m = block.querySelector('.day-route-map'); if (m) m.classList.toggle('open');
         }
 
-        // =============================================
-        // Google 地图唤起
-        // =============================================
-        function openMap(url) {
-            window.open(url, '_blank');
-        }
-        window.openMap = openMap;
-
-        // =============================================
-        // 主题切换
-        // =============================================
-        function getSystemTheme() {
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        // ===== 主题 =====
+        function getSystemTheme() { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
-            const icon = document.getElementById('themeIcon');
-            const label = document.getElementById('themeLabel');
+            const icon = document.getElementById('themeIcon'), label = document.getElementById('themeLabel');
             if (theme === 'dark') { icon.textContent = '☀️'; label.textContent = '白天'; }
             else { icon.textContent = '🌙'; label.textContent = '夜间'; }
             localStorage.setItem('theme', theme);
         }
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            setTheme(current === 'dark' ? 'light' : 'dark');
-        }
+        function toggleTheme() { const c = document.documentElement.getAttribute('data-theme'); setTheme(c === 'dark' ? 'light' : 'dark'); }
         (function initTheme() {
             const saved = localStorage.getItem('theme');
             if (saved) setTheme(saved); else setTheme(getSystemTheme());
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light');
-            });
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => { if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light'); });
         })();
         window.toggleTheme = toggleTheme;
 
-        // =============================================
-        // 待办清单（可勾选，localStorage）
-        // =============================================
+        // ===== 手绘地图缩放/平移 =====
+        const handmapState = {};
+        function initHandmap(id) {
+            const wrap = document.getElementById('handmap-wrap-' + id);
+            const svg = document.getElementById('handmap-' + id);
+            if (!wrap || !svg) return;
+            const state = { scale: 1, tx: 0, ty: 0, dragging: false, startX: 0, startY: 0, startTx: 0, startTy: 0, lastTouchDist: 0 };
+            handmapState[id] = state;
+            function apply() { svg.style.transform = `translate(${state.tx}px, ${state.ty}px) scale(${state.scale})`; }
+            function zoomAt(px, py, factor) {
+                const newScale = Math.min(5, Math.max(0.4, state.scale * factor));
+                const realF = newScale / state.scale;
+                state.tx = px - realF * (px - state.tx);
+                state.ty = py - realF * (py - state.ty);
+                state.scale = newScale; apply();
+            }
+            state._zoomAt = zoomAt; state._apply = apply;
+            wrap.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = wrap.getBoundingClientRect();
+                const factor = e.deltaY < 0 ? 1.15 : 0.87;
+                zoomAt(e.clientX - rect.left, e.clientY - rect.top, factor);
+            }, { passive: false });
+            wrap.addEventListener('mousedown', (e) => { state.dragging = true; state.startX = e.clientX; state.startY = e.clientY; state.startTx = state.tx; state.startTy = state.ty; wrap.classList.add('grabbing'); });
+            window.addEventListener('mousemove', (e) => { if (!state.dragging) return; state.tx = state.startTx + (e.clientX - state.startX); state.ty = state.startTy + (e.clientY - state.startY); apply(); });
+            window.addEventListener('mouseup', () => { if (!state.dragging) return; state.dragging = false; wrap.classList.remove('grabbing'); });
+            wrap.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) { state.dragging = true; state.startX = e.touches[0].clientX; state.startY = e.touches[0].clientY; state.startTx = state.tx; state.startTy = state.ty; }
+                else if (e.touches.length === 2) { state.dragging = false; state.lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); }
+            }, { passive: true });
+            wrap.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && state.dragging) { state.tx = state.startTx + (e.touches[0].clientX - state.startX); state.ty = state.startTy + (e.touches[0].clientY - state.startY); apply(); }
+                else if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                    const factor = dist / state.lastTouchDist; state.lastTouchDist = dist;
+                    const rect = wrap.getBoundingClientRect();
+                    const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+                    const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+                    zoomAt(cx, cy, factor);
+                }
+            }, { passive: false });
+            wrap.addEventListener('touchend', (e) => { state.dragging = false; });
+        }
+        function hmZoom(id, factor) { const s = handmapState[id]; if (!s) return; const w = document.getElementById('handmap-wrap-' + id); const r = w.getBoundingClientRect(); s._zoomAt(r.width/2, r.height/2, factor); }
+        function hmReset(id) { const s = handmapState[id]; if (!s) return; s.scale = 1; s.tx = 0; s.ty = 0; s._apply(); }
+        window.hmZoom = hmZoom; window.hmReset = hmReset;
+        initHandmap('kyoto'); initHandmap('osaka');
+
+        // ===== 待办清单 =====
         const TODO_ITEMS = [
             '9.11 中转通预约济南免费住宿（去程）',
             '9.20 中转通预约济南免费住宿（返程）',
@@ -1533,242 +897,98 @@
             '确认天桥立一日游集合时间地点（Klook/携程）',
             '确认 Haruka 电子票（已购）',
         ];
-        const TODO_KEY = 'kyoto_osaka_todo_state';
-
-        function loadTodoState() {
-            try {
-                const saved = localStorage.getItem(TODO_KEY);
-                return saved ? JSON.parse(saved) : {};
-            } catch { return {}; }
-        }
-        function saveTodoState(state) {
-            localStorage.setItem(TODO_KEY, JSON.stringify(state));
-        }
+        const TODO_KEY = 'kyoto_osaka_todo_v3';
+        function loadTodoState() { try { return JSON.parse(localStorage.getItem(TODO_KEY) || '{}'); } catch { return {}; } }
+        function saveTodoState(s) { localStorage.setItem(TODO_KEY, JSON.stringify(s)); }
         function renderTodoList() {
-            const state = loadTodoState();
-            const container = document.getElementById('todoList');
-            container.innerHTML = '';
+            const state = loadTodoState(); const c = document.getElementById('todoList'); c.innerHTML = '';
             TODO_ITEMS.forEach((text, i) => {
                 const checked = state[i] || false;
                 const li = document.createElement('li');
-                li.innerHTML = `
-                    <div class="list-check ${checked ? 'checked' : ''}" onclick="toggleTodo(${i})">${checked ? '✓' : ''}</div>
-                    <div class="list-text ${checked ? 'done' : ''}">${text}</div>
-                `;
-                container.appendChild(li);
+                li.innerHTML = `<div class="list-check ${checked ? 'checked' : ''}" onclick="toggleTodo(${i})">${checked ? '✓' : ''}</div><div class="list-text ${checked ? 'done' : ''}">${text}</div>`;
+                c.appendChild(li);
             });
         }
-        function toggleTodo(index) {
-            const state = loadTodoState();
-            state[index] = !state[index];
-            saveTodoState(state);
-            renderTodoList();
-        }
+        function toggleTodo(i) { const s = loadTodoState(); s[i] = !s[i]; saveTodoState(s); renderTodoList(); }
         renderTodoList();
 
-        // =============================================
-        // 购物清单（可编辑 + 可勾选 + 二次确认删除）
-        // =============================================
-        const SHOP_KEY = 'kyoto_osaka_shop_list';
-        const SHOP_EDIT_MODE_KEY = 'kyoto_osaka_shop_edit_mode';
-        let shopEditMode = false;
-        let pendingDeleteId = null;
-
-        function loadShopList() {
-            try {
-                const saved = localStorage.getItem(SHOP_KEY);
-                return saved ? JSON.parse(saved) : [];
-            } catch { return []; }
-        }
-        function saveShopList(list) {
-            localStorage.setItem(SHOP_KEY, JSON.stringify(list));
-        }
+        // ===== 购物清单 =====
+        const SHOP_KEY = 'kyoto_osaka_shop_v3';
+        const SHOP_EDIT_KEY = 'kyoto_osaka_shop_edit_v3';
+        let shopEditMode = false, pendingDeleteId = null;
+        function loadShopList() { try { return JSON.parse(localStorage.getItem(SHOP_KEY) || '[]'); } catch { return []; } }
+        function saveShopList(l) { localStorage.setItem(SHOP_KEY, JSON.stringify(l)); }
         function renderShopList() {
-            const list = loadShopList();
-            const container = document.getElementById('shopList');
-            const statsEl = document.getElementById('shopStats');
-            container.innerHTML = '';
-
-            const total = list.length;
-            const done = list.filter(item => item.checked).length;
-            statsEl.textContent = total > 0 ? `共 ${total} 项 · 已购 ${done} 项` : '';
-
-            if (shopEditMode) container.classList.add('edit-mode');
-            else container.classList.remove('edit-mode');
-
-            if (list.length === 0) {
-                const li = document.createElement('li');
-                li.style.color = 'var(--muted)';
-                li.style.fontSize = '13px';
-                li.style.padding = '12px 0';
-                li.style.justifyContent = 'center';
-                li.textContent = '暂无购物项，在下方输入框添加';
-                container.appendChild(li);
-                return;
-            }
-
+            const list = loadShopList(); const c = document.getElementById('shopList'); const s = document.getElementById('shopStats');
+            c.innerHTML = ''; const total = list.length, done = list.filter(i => i.checked).length;
+            s.textContent = total > 0 ? `共 ${total} 项 · 已购 ${done} 项` : '';
+            if (shopEditMode) c.classList.add('edit-mode'); else c.classList.remove('edit-mode');
+            if (list.length === 0) { const li = document.createElement('li'); li.style.cssText = 'color:var(--muted);font-size:13px;padding:12px 0;justify-content:center;'; li.textContent = '暂无购物项'; c.appendChild(li); return; }
             list.forEach(item => {
                 const li = document.createElement('li');
-                li.innerHTML = `
-                    <div class="list-check ${item.checked ? 'checked' : ''}" onclick="toggleShopItem(${item.id})">${item.checked ? '✓' : ''}</div>
-                    <div class="list-text ${item.checked ? 'done' : ''}">${item.text}</div>
-                    <button class="list-delete" onclick="requestDelete(${item.id})">✕</button>
-                `;
-                container.appendChild(li);
+                li.innerHTML = `<div class="list-check ${item.checked ? 'checked' : ''}" onclick="toggleShopItem(${item.id})">${item.checked ? '✓' : ''}</div><div class="list-text ${item.checked ? 'done' : ''}">${item.text}</div><button class="list-delete" onclick="requestDelete(${item.id})">✕</button>`;
+                c.appendChild(li);
             });
+            const b = document.getElementById('shopEditToggle');
+            if (shopEditMode) { b.textContent = '✅ 完成'; b.classList.add('active'); } else { b.textContent = '✏️ 编辑'; b.classList.remove('active'); }
+        }
+        function addShopItem() { const i = document.getElementById('shopInput'); const t = i.value.trim(); if (!t) return; const l = loadShopList(); l.push({ id: Date.now(), text: t, checked: false }); saveShopList(l); i.value = ''; renderShopList(); }
+        function toggleShopItem(id) { const l = loadShopList(); const i = l.find(x => x.id === id); if (i) { i.checked = !i.checked; saveShopList(l); renderShopList(); } }
+        function toggleShopEdit() { shopEditMode = !shopEditMode; localStorage.setItem(SHOP_EDIT_KEY, shopEditMode ? '1' : '0'); renderShopList(); }
+        function requestDelete(id) { pendingDeleteId = id; const l = loadShopList(); const i = l.find(x => x.id === id); if (!i) return; document.getElementById('deleteModalText').textContent = `确定要删除「${i.text}」吗？`; document.getElementById('deleteModal').classList.add('show'); }
+        function cancelDelete() { pendingDeleteId = null; document.getElementById('deleteModal').classList.remove('show'); }
+        function confirmDelete() { if (pendingDeleteId !== null) { let l = loadShopList(); l = l.filter(i => i.id !== pendingDeleteId); saveShopList(l); pendingDeleteId = null; document.getElementById('deleteModal').classList.remove('show'); renderShopList(); } }
+        (function initShopEdit() { if (localStorage.getItem(SHOP_EDIT_KEY) === '1') shopEditMode = true; renderShopList(); })();
 
-            // 更新编辑按钮状态
-            const editBtn = document.getElementById('shopEditToggle');
-            if (shopEditMode) {
-                editBtn.textContent = '✅ 完成';
-                editBtn.classList.add('active');
-            } else {
-                editBtn.textContent = '✏️ 编辑';
-                editBtn.classList.remove('active');
-            }
-        }
-        function addShopItem() {
-            const input = document.getElementById('shopInput');
-            const text = input.value.trim();
-            if (!text) return;
-            const list = loadShopList();
-            list.push({ id: Date.now(), text: text, checked: false });
-            saveShopList(list);
-            input.value = '';
-            renderShopList();
-        }
-        function toggleShopItem(id) {
-            const list = loadShopList();
-            const item = list.find(i => i.id === id);
-            if (item) {
-                item.checked = !item.checked;
-                saveShopList(list);
-                renderShopList();
-            }
-        }
-        function toggleShopEdit() {
-            shopEditMode = !shopEditMode;
-            localStorage.setItem(SHOP_EDIT_MODE_KEY, shopEditMode ? '1' : '0');
-            renderShopList();
-        }
-        function requestDelete(id) {
-            pendingDeleteId = id;
-            const list = loadShopList();
-            const item = list.find(i => i.id === id);
-            if (!item) return;
-            document.getElementById('deleteModalText').textContent = `确定要删除「${item.text}」吗？`;
-            document.getElementById('deleteModal').classList.add('show');
-        }
-        function cancelDelete() {
-            pendingDeleteId = null;
-            document.getElementById('deleteModal').classList.remove('show');
-        }
-        function confirmDelete() {
-            if (pendingDeleteId !== null) {
-                let list = loadShopList();
-                list = list.filter(i => i.id !== pendingDeleteId);
-                saveShopList(list);
-                pendingDeleteId = null;
-                document.getElementById('deleteModal').classList.remove('show');
-                renderShopList();
-            }
-        }
+        // ===== ICOCA =====
+        function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightbox').classList.add('show'); }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); }
 
-        // 初始化购物清单编辑模式
-        (function initShopEditMode() {
-            const saved = localStorage.getItem(SHOP_EDIT_MODE_KEY);
-            if (saved === '1') shopEditMode = true;
-            renderShopList();
-        })();
-
-        // =============================================
-        // ICOCA 图片灯箱
-        // =============================================
-        function openLightbox(src) {
-            document.getElementById('lightboxImg').src = src;
-            document.getElementById('lightbox').classList.add('show');
-        }
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('show');
-        }
-
-        // =============================================
-        // 汇率计算器（交互版，微信支付参考汇率，4位小数）
-        // =============================================
+        // ===== 汇率 =====
         let currentRate = 0;
-
         async function fetchRate() {
-            const noteEl = document.getElementById('rateNote');
-            noteEl.textContent = '⏳ 获取汇率中...';
-
+            const n = document.getElementById('rateNote'); n.textContent = '⏳ 获取汇率中...';
             try {
-                // 使用免费 API 获取人民币兑日元汇率
-                const resp = await fetch('https://api.exchangerate-api.com/v4/latest/CNY');
-                if (!resp.ok) throw new Error('API 请求失败');
-                const data = await resp.json();
-                const rate = data.rates.JPY;
-                if (!rate) throw new Error('未获取到 JPY 汇率');
+                const r = await fetch('https://api.exchangerate-api.com/v4/latest/CNY');
+                if (!r.ok) throw new Error();
+                const d = await r.json(); const rate = d.rates.JPY;
+                if (!rate) throw new Error();
                 currentRate = rate;
-                const now = new Date();
-                noteEl.textContent = `🔄 更新于 ${now.toLocaleString('zh-CN', { hour12: false })} · 参考微信支付汇率（1 CNY ≈ ${rate.toFixed(4)} JPY）`;
+                n.textContent = `🔄 更新于 ${new Date().toLocaleString('zh-CN', { hour12: false })} · 参考微信支付汇率（1 CNY ≈ ${rate.toFixed(4)} JPY）`;
                 updateAllDisplays();
-            } catch (err) {
-                console.warn('汇率 API 失败，使用备用估算值', err);
-                currentRate = 20.5;
-                noteEl.textContent = '⚠️ 当前为估算汇率（约 1:20.5），点击刷新获取实时数据';
-                updateAllDisplays();
-            }
+            } catch (e) { currentRate = 20.5; n.textContent = '⚠️ 当前为估算汇率（约 1:20.5），点击刷新获取实时数据'; updateAllDisplays(); }
         }
-
         function updateAllDisplays() {
             if (!currentRate) return;
-            const cnyVal = parseFloat(document.getElementById('cnyInput').value);
-            const jpyVal = parseFloat(document.getElementById('jpyInput').value);
-            if (!isNaN(cnyVal) && cnyVal > 0) convertFromCNY();
-            else if (!isNaN(jpyVal) && jpyVal > 0) convertFromJPY();
+            const c = parseFloat(document.getElementById('cnyInput').value);
+            const j = parseFloat(document.getElementById('jpyInput').value);
+            if (!isNaN(j) && j > 0) convertFromJPY();
+            else if (!isNaN(c) && c > 0) convertFromCNY();
         }
-
-        function convertFromCNY() {
-            const cny = parseFloat(document.getElementById('cnyInput').value);
-            if (isNaN(cny) || cny <= 0) {
-                document.getElementById('cnyToJpyDisplay').textContent = '--'; return;
-            }
-            const jpy = cny * currentRate;
-            document.getElementById('cnyToJpyDisplay').textContent = jpy.toFixed(2);
-            document.getElementById('jpyInput').value = jpy.toFixed(0);
-            updateQuickRefs();
-        }
-
         function convertFromJPY() {
-            const jpy = parseFloat(document.getElementById('jpyInput').value);
-            if (isNaN(jpy) || jpy <= 0) {
-                document.getElementById('jpyToCnyDisplay').textContent = '--'; return;
-            }
-            const cny = jpy / currentRate;
-            document.getElementById('jpyToCnyDisplay').textContent = cny.toFixed(4);
-            document.getElementById('cnyInput').value = cny.toFixed(4);
+            const j = parseFloat(document.getElementById('jpyInput').value);
+            if (isNaN(j) || j <= 0) { document.getElementById('jpyToCnyDisplay').textContent = '--'; return; }
+            const c = j / currentRate;
+            document.getElementById('jpyToCnyDisplay').textContent = c.toFixed(4);
+            document.getElementById('cnyInput').value = c.toFixed(4);
             updateQuickRefs();
         }
-
+        function convertFromCNY() {
+            const c = parseFloat(document.getElementById('cnyInput').value);
+            if (isNaN(c) || c <= 0) { document.getElementById('cnyToJpyDisplay').textContent = '--'; return; }
+            const j = c * currentRate;
+            document.getElementById('cnyToJpyDisplay').textContent = j.toFixed(4);
+            document.getElementById('jpyInput').value = j.toFixed(0);
+            updateQuickRefs();
+        }
         function updateQuickRefs() {
             if (!currentRate) return;
             document.getElementById('cashCny').textContent = `≈ ${(80000 / currentRate).toFixed(4)} 人民币`;
             document.getElementById('suicaCny').textContent = `≈ ${(10000 / currentRate).toFixed(4)} 人民币`;
             document.getElementById('totalCny').textContent = `≈ ${(90000 / currentRate).toFixed(4)} 人民币`;
         }
-
-        function setQuickAmount(amount, type) {
-            if (type === 'jpy') {
-                document.getElementById('jpyInput').value = amount;
-                convertFromJPY();
-            } else {
-                document.getElementById('cnyInput').value = amount;
-                convertFromCNY();
-            }
-        }
-
-        fetchRate();
-        setInterval(fetchRate, 15 * 60 * 1000);
+        function setQuickAmount(a, t) { if (t === 'jpy') { document.getElementById('jpyInput').value = a; convertFromJPY(); } else { document.getElementById('cnyInput').value = a; convertFromCNY(); } }
+        fetchRate(); setInterval(fetchRate, 15 * 60 * 1000);
 
         window.fetchRate = fetchRate;
         window.convertFromCNY = convertFromCNY;
@@ -1783,12 +1003,6 @@
         window.confirmDelete = confirmDelete;
         window.openLightbox = openLightbox;
         window.closeLightbox = closeLightbox;
-
-        console.log('✅ 京都·大阪 旅行手册 已更新');
-        console.log('📋 待办清单：可勾选，localStorage 保存');
-        console.log('🛒 购物清单：可添加/勾选/编辑删除，localStorage 保存');
-        console.log('🗺️ 地图：Google Maps 嵌入，可缩放');
-        console.log('💴 汇率：微信支付参考，4位小数');
     </script>
 
 </body>
